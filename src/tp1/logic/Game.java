@@ -11,20 +11,9 @@ public class Game {
 		// TODO Auto-generated constructor stub
 	}
 	
-	
-	public int getCycle() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
 	public String positionToString(int col, int row) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public boolean playerLooses() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	public boolean playerWins() {
