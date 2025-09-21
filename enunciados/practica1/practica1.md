@@ -42,13 +42,13 @@ Super Mario es una saga de videojuegos clásica, lanzada a comienzos de la déca
 
 En nuestra práctica, vamos a implementar una versión simplificada de **Mario Bros** donde Mario se mueve en un tablero 2D, se encuentra con enemigos, puede morir, ganar puntos y alcanzar una puerta de salida, objetivo final. En nuestra versión, el juego se desarrollará por turnos, en los que el usuario podrá realizar una acción (ejecutar un comando). Por tanto, el juego se quedará parado hasta que el jugador realice la acción. Seguidamente, los objetos del juego que así lo requieran tendrán que actualizarse para realizar sus movimientos o acciones correspondientes. 
 
-![Vista del juego en su versión moderna](imgs/Bitmap/Pr1/supermario-1.webp)
+![Vista del juego en su versión moderna](imgs/supermario-1.webp)
 
 Si no has jugado, o no conoces el juego, te recomendamos que lo pruebes antes de desarrollar la práctica. Existen varias versiones gratuitas en la web, una de ellas es accesible a través del enlace: https://supermarioplay.com/. 
 
 A lo largo del cuatrimestre iremos desarrollando nuestra versión del juego. Empezaremos por esta versión reducida de la misma, donde Mario solo camina y realiza algunas acciones, y solo existe un tipo de enemigo, el Goomba. 
 
-<img src="imgs/Bitmap/Pr1/goomba1.jpg" alt="Texto alternativo" width="200">
+<img src="imgs/goomba1.jpg" alt="Texto alternativo" width="200">
 
 
 
@@ -160,10 +160,10 @@ Además de esto y como veremos más adelante, el contenedor será responsable de
 
 Se podrán crear varios mapas dependiendo de la distribución de objetos que tengamos, para lo cual utilizaremos métodos como ``private void initLevel0()`` o ``private void initLevel1()``  El mapa elegido dependerá del (primer) argumento por parámetro que le hayamos pasado a la aplicación (ver imagen). 
 
-![Opciones de ejecución](imgs/Bitmap/Pr1/args.png)
+![Opciones de ejecución](imgs/args.png)
 
 ``initLevel1()`` mostrará el mapa que mostramos a continuación,
-![mapa1](imgs/Bitmap/Pr1/mapa1.png)
+![mapa1](imgs/mapa1.png)
 ``initLevel0()`` mostrará el mismo mapa pero solo con el el Goomba situado en la fila 0 y columna 19. Este mapa es el aconsejado para el proceso de depuración que debeís ir realizando. La posibilidad de crear un Game con el número de nivel permitirá a la larga si se quiere añadir más mapas. 
 
 
@@ -460,11 +460,11 @@ Junto con las instrucciones de la práctica, tendrás una carpeta con trazas del
 
 En Eclipse, para usar un fichero de entrada y volcar la salida en un fichero de salida, debes configurar la redirección en la pestaña `Common` de la ventana `Run Configurations`, tal y como se muestra en la siguiente figura. Lo más cómodo es crear, al menos, una `Run Configuration` para cada caso de prueba.
 
-![Redirección entrada y salida](imgs/Bitmap/Pr1/runConfigurationsCommon.png)
+![Redirección entrada y salida](imgs/runConfigurationsCommon.png)
 
 Hay multitud de programas gratuitos para comparar visualmente ficheros, por ejemplo Eclipse ya tiene integrada una herramienta para comparar archivos que puedes lanzar al seleccionar dos archivos, pulsar con el botón derecho y en el menú emergente seleccionar `Compare With > Each other`.
 
-![Cómo comparar dos archivos en Eclipse](imgs/Bitmap/Pr1/Eclipse_Compare_EachOther.png)
+![Cómo comparar dos archivos en Eclipse](imgs/Eclipse_Compare_EachOther.png)
 
 Aparecerá una nueva ventana donde se mostrarán marcadas claramente las diferencias entre los archivos.
 
