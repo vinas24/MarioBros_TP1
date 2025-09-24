@@ -121,7 +121,7 @@ To display output on the console, we call the ``showGame()`` method of the ``Gam
 
 - `time`, which stores the remaining cycles; it is initialised to `100` and reduced by `1` on each cycle.
 - `points`, which stores the player's current score; it is initialised to `0` and modified by actions of the game.
-- `lives`, which stores Mario's remaining lives; it is initialised to `3` and is reduced by `1` each time Mario dies; when its value reaches `0`, the game ends and the execution terminates after displaying the message *Player loses!* (if you do not find required constants of type `String` already defined in the `Messages` class, you must add them to this class).
+- `lives`, which stores Mario's remaining lives; it is initialised to `3` and is reduced by `1` each time Mario dies; when its value reaches `0`, the game ends and the execution terminates after displaying the message *Game over, player loses!* (if you do not find required constants of type `String` already defined in the `Messages` class, you must add them to this class).
 
 Next we introduce some game elements. We first create a class `Ground` which represents the ground on which other game elements can move, the simplest game element. Each game element must store its position on the board so the `Ground` class must have, amongst others, the following attribute:
   ```java
@@ -151,9 +151,9 @@ The `GameObjectContainer` class will need attributes of the appropriate type to 
   public void add(ExitDoor exit);
   public void add(Mario mario);
   ```
-It is also the responsibility of the `container` to delegate the requests coming from the `game` to each of the game objects.
+It is also the responsibility of the `container` to delegate the requests coming from the `game` to each of the game objects. Note also that we can now move the attribute `lives` from the `Game` class to the `Mario` class, adding a getter invoked by the `GameObjectContainer` class, in turn invoked by the `Game` class, in order to print this information on the console.
 
-We can now create different worlds, or maps, each containing a different distribution of the game elements defined so far, using methods `private void initLevel0()` and `private void initLevel1()`. The map to be used can be chosen at start-up by passing the level as an argument to the application (see the image): 
+We  now create different worlds, or maps, each containing a different distribution of the game elements defined so far, using methods `private void initLevel0()` and `private void initLevel1()`. The map to be used can be chosen at start-up by passing the level as an argument to the application (see the image): 
 
 ![Execution options](imgs/args.png)
 
@@ -161,7 +161,7 @@ With this mechanism, we can add more maps if we choose. The initial state of ``i
 
 ![Level1](imgs/mapa1.png)
 
-and that of `initLevel0()` should show the same map but with the only goomba being the one situated at position (0,19). We recommend using the latter map for debugging.
+and that of `initLevel0()` should show the same map but with the only `Goomba` object being the one situated at position (0,19). We recommend using this map for debugging.
 
 This concludes the first step.
 
@@ -207,50 +207,47 @@ This concludes the second step.
 We now enable some of the game elements to move and implement the `[u]pdate|""` command. The key to the implementation of this command is the definition of the method `public void update()` in each of the classes of the objects that are *mobile*, currently only `Mario` and `Goomba`.
 
 - The `update` method of the `Goomba` class only needs to consider automatic movement.
-- The `update` method of the `Mario` class must take into account:  
-  1. automatic movement,  
-  2. any actions introduced by the player,  
-  3. any collisions between Mario and other objects.  
+- The `update` method of the `Mario` class must take into account: 
+  1. automatic movement, 
+  2. any actions introduced by the player, 
+  3. any collisions between Mario and other objects. 
 
 ##### The `update()` method of the `Goomba` class
 
 The behaviour of a `Goomba` object is completely automatic, i.e. cannot be changed by commands.
 
-- If it has a solid object underneath, it advances (i.e. moves horizontally in its currently-set direction, its inital movement being from right to left) one cell per cycle.
+- Initially, it's direction of movement is set as right-to-left.
+- If it has a solid object underneath, it advances (i.e. moves horizontally in its currently-set direction) one cell per cycle.
 - If it collides with a solid object or with the side-wall of the board, it starts to move in the opposite direction.
 - If it does not have a solid object underneath, it falls (moves vertically down one cell per cycle) and continues falling each cycle until either it encounters a solid object underneath it, or it leaves the board via the bottom edge; in the latter case, it dies and must be removed from the game (i.e. deleted from the list of `Goomba` objects).
 
 ##### The `update()` method of the `Mario` class`
 
-El movimiento automático de Mario es muy parecido al de Goomba, pero con algunas diferencias:  
+The automatic movement of `mario` is similar, but not identical, to that of the `Goomba` objects: 
 
-- Mario comienza caminando hacia la **derecha** (no hacia la izquierda).  
-- Cuando Mario muere avisa al game de que ha muerto para que haga los ajustes necesarios:
-    - Perder **una vida**. Tiene inicialmente **tres vidas**.
-    - Resetear la partida. La partida termina cuando se queda sin vida mostrando el mensaje "Game over".  
+- Initially, `mario`'s direction of movement is set as left-to-right. 
+- When `mario` dies, he loses a life and notifies the game of this loss, in order for it to make the necessary adjustments, namely
+    - If the number of lives is still non-zero, reset the game
+    - If the number of lives is now zero, terminate the game after printing the message *Game over, player loses!*. 
+    
+As well as this automatic movement, the `update` method of the `Mario` class must also take into account:
 
-Además de este movimiento automático, en `Mario.update()` se deberán procesar también:  
+- The actions added by the player (stored in an object of the `ActionList` class, see below). 
+- The collisions with other objects on the board (namely, `Goomba` objects or the `exitDoor`).
 
-- Las **acciones añadidas por el jugador** (almacenadas en la clase `ActionList`).  
-- Las **colisiones** con otros objetos del tablero (por ejemplo: Goombas o la puerta de salida).  
-
-Esto se verá en las siguientes secciones del enunciado. 
+This will be dealt with in the following section.
 
 ##### The `update()` method of `Game` and `GameObjectContainer`
 
-Para que todo funcione, también será necesario implementar el método `public void update()` en la clase `Game`.  
+For the updating to work, an `public void update()` method is also needed in the `Game` class. This method 
 
-Este método deberá:  
+1. Calls the `update()` method of the `GameObjectContainer` class. 
+2. which, calls the `update()` methods of each of the updatable game objects. 
 
-1. Llamar al método `update()` de la clase `GameObjectContainer`.  
-2. El contenedor, a su vez, llamará a los métodos `update()` de los objetos del tablero.  
+In order for the output (display) of our program to be the same as that assumed in the tests, it is **very important** that you respect the order in which the game objects are to be updated.
 
-Es **muy importante** respetar el orden en que se actualizan los objetos, para que las pruebas no os den problemas:  
-
-1. **Primero Mario** (para que sus acciones y colisiones se procesen antes).  
-2. **Después los Goombas**.  
-
-De este modo se garantiza un comportamiento coherente en cada ciclo de juego.  
+1. **First Mario**. 
+2. **Second Goombas**. 
 
 This concludes the third step.
 
@@ -292,7 +289,5 @@ This concludes the last step.
 ## 5. Testing
 
 *To be added shortly...*
-
----------------------------------------------------------](https://github.com/informaticaucm-TPI/2526_MarioBros/blob/main/enunciados/practica1/practica1_en.md)
 
 
