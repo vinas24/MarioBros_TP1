@@ -42,13 +42,13 @@ Super Mario is a classic videogame saga released at the beginning of the 1980s t
 
 We will implement a simplified verison of **Mario Bros**, the first simplification being that we will use a text-based interface, rather than a GUI, where the world is represented as a 2D board on which Mario moves and encounters enemies. The second simplfication is that the original game evolves in real time, i.e. the other elements of the game move constantly, independently of any actions that the player may take, whereas the game we develop here evolves in discrete cycles. On each cycle, the game stops and waits for the player to input a command via the keyboard, after which the state of the game (including Mario) is updated taking into account the chosen command. The updating causes the elements of the game to carry out the appropriate movements and actions. In the course of the game, Mario can die, gain points and reach an exit door, which is the main objective of the player. 
 
-![View of a modern version of the game](imgs/Bitmap/Pr1/supermario-1.webp)
+![View of a modern version of the game](imgs/supermario-1.webp)
 
 If you do not know the game or have never played it, we recommend that you try it before carrying out the assignment. Several free versions can be found on the web, one of them being available at the following URL: https://supermarioplay.com/.
 
 During the term, we will progressively develop our own version of the game. In this first assignment, we develop a very reduced version in which Mario simply walks and carries out a few other actions and in which there is only one type of enemy, the Goomba.
 
-<img src="imgs/Bitmap/Pr1/goomba1.jpg" alt="A goomba" width="200">
+<img src="imgs/goomba1.jpg" alt="A goomba" width="200">
 
 In the next assignment we will incorporate more functionality, in particular, introducing more game elements and more commands, by using the tools of OOP, notably inheritance and polymorphism.
 
@@ -155,11 +155,11 @@ It is also the responsibility of the `container` to delegate the requests coming
 
 We can now create different worlds, or maps, each containing a different distribution of the game elements defined so far, using methods `private void initLevel0()` and `private void initLevel1()`. The map to be used can be chosen at start-up by passing the level as an argument to the application (see the image): 
 
-![Execution options](imgs/Bitmap/Pr1/args.png)
+![Execution options](imgs/args.png)
 
 With this mechanism, we can add more maps if we choose. The initial state of ``initLevel1()`` should be as follows:
 
-![Level1](imgs/Bitmap/Pr1/mapa1.png)
+![Level1](imgs/mapa1.png)
 
 and that of `initLevel0()` should show the same map but with the goomba situated at position (0,19). We recommend using this map for debugging.
 
