@@ -74,6 +74,7 @@ You are provided with skeleton code comprising the following packages and classe
 
 + `tp1`
     - _`Main`_
+    - Testing
 + `tp1.view`
 	- _`ConsoleColorsAnsiCodes`_
 	- _`ConsoleColorsView`_
@@ -85,7 +86,8 @@ You are provided with skeleton code comprising the following packages and classe
     - `Controller`
 + `tp1.utils`
     - _`MyStringUtils`_
-+ `tp1.logic`
++ `tp1.logic
+    - `Game`
     - `GameObjectContainer`
 	- `Action`
 	- `Position`
@@ -96,7 +98,7 @@ Each package contains several files. The files whose name is shown in italics co
 
 The package structure of the code provided conforms to the Model-View-Controller (MVC) architectural pattern:
 
-+ The **Model**  component of an MVC application contains the logic. In our case, the *Model* contains the rules of the game, the handling of the different elements of the game and, in general, everything concerned with the game such as remaining cycles, remaining lives of Mario, whether or not the game has finished, whether or not the player has won, etc. Correspondingly, in our package structure, the `model` package contains the `Game` class, the `GameObjectContainer` class and other classes. The `Game` class contains a method `update` to update the state of the game and methods that are called by the `run` method of the `Controller` class (see below) when the corresponding command is entered, such as the `reset` method.
++ The **Model**  component of an MVC application contains the logic. In our case, the *Model* contains the rules of the game, the handling of the different elements of the game and, in general, everything concerned with the game such as remaining cycles, remaining lives of Mario, whether or not the game has finished, whether or not the player has won, etc. Correspondingly, in our package structure, the `logic` package contains the `Game` class, the `GameObjectContainer` class and other classes. The `Game` class contains a method `update` to update the state of the game and methods that are called by the `run` method of the `Controller` class (see below) when the corresponding command is entered, such as the `reset` method.
 
 + The **View** component of an MVC application manages the display (or displays). In our case, the *View* is a simple console display. Correspondingly, in our package structure, the `view` package contains the `GameView` class responsible for displaying the state of the game on the console. The constructor of `GameView` receives an instance of the `Game` class. Observe that the `view` package also contains the subclasses `ConsoleView` and `ConsoleColorsView`, the first with no colours and the second with colours; using the no-colours view requires passing the argument `NO_COLORS` to the program on start-up.
 
