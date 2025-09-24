@@ -74,7 +74,7 @@ You are provided with skeleton code comprising the following packages and classe
 
 + `tp1`
     - _`Main`_
-    - Testing
+    - `Testing`
 + `tp1.view`
 	- _`ConsoleColorsAnsiCodes`_
 	- _`ConsoleColorsView`_
