@@ -161,7 +161,7 @@ With this mechanism, we can add more maps if we choose. The initial state of ``i
 
 ![Level1](imgs/mapa1.png)
 
-and that of `initLevel0()` should show the same map but with the goomba situated at position (0,19). We recommend using this map for debugging.
+and that of `initLevel0()` should show the same map but with the only goomba being the one situated at position (0,19). We recommend using the latter map for debugging.
 
 This concludes the first step.
 
