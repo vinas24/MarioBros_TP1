@@ -1,4 +1,4 @@
-[# Assignment 1: Mario Bros (simplified version)
+# Assignment 1: Mario Bros (simplified version)
 
 **Submission: 13th of october at 09:00**
  
