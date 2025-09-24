@@ -10,21 +10,21 @@ string handling with the `String` class; input-output on the console.
 -->
 
 <!-- TOC start -->
-  * [Plagiarism](#plagiarism)
+- [Plagiarism](#plagiarism)
 - [1. Description of the assignment](#1-description)
   * [1.1 Introduction](#11-introduction)
   * [1.2. Details](#12-details)
 - [2. Structure of the project](#2-project-structure)
 - [3. Dividing the implementation into stages](#3-stages)
-  - [3.1 Displaying the board](#31-display)
-  - [3.2 Basic commands and the main loop](#32-main-loop-basic-commands)
-  - [3.3 Automatic movement and user actions](#33-automatic-movement-and-user-actions)
-  - [3.4 Mario actions](#34-mario-actions)
-  - [3.5 Collisions Mario ↔ ExitDoor](#35-collisions-mario-exitdoor)
-  - [3.6 Collisions Mario ↔ Goombas](#36-collisions-mario-goombas)
+  * [3.1 Displaying the board](#31-display)
+  * [3.2 Basic commands and the main loop](#32-main-loop-basic-commands)
+  * [3.3 Automatic movement and user actions](#33-automatic-movement-and-user-actions)
+  * [3.4 Mario actions](#34-mario-actions)
+  * [3.5 Collisions Mario ↔ ExitDoor](#35-collisions-mario-exitdoor)
+  * [3.6 Collisions Mario ↔ Goombas](#36-collisions-mario-goombas)
 - [4. Submission](#4-submission)
 - [5. Testing](#5-testing)
-  - [JUnit](51-JUnit)
+  * [JUnit](51-JUnit)
 <!-- TOC end -->
 
 <!-- TOC --><a name="plagiarism"></a>
