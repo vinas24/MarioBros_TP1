@@ -1,4 +1,4 @@
-# Assignment 1: Mario Bros (simplified version)
+[# Assignment 1: Mario Bros (simplified version)
 
 **Submission: 13th of october at 09:00**
  
@@ -293,6 +293,6 @@ This concludes the last step.
 
 *To be added shortly...*
 
----------------------------------------------------------
+---------------------------------------------------------](https://github.com/informaticaucm-TPI/2526_MarioBros/blob/main/enunciados/practica1/practica1_en.md)
 
 
