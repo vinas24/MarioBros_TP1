@@ -18,7 +18,7 @@ string handling with the `String` class; input-output on the console.
 - [3. Dividing the implementation into stages](#3-stages)
   * [3.1 Displaying the board](#31-display)
   * [3.2 Basic commands and the main loop](#32-main-loop-basic-commands)
-  * [3.3 Automatic movement and user actions](#33-automatic-movement-and-user-actions)
+  * [3.3 Automatic movement and updating the state of the game](#33-automatic-movement-and-update)
   * [3.4 Mario actions](#34-mario-actions)
   * [3.5 Collisions Mario ↔ ExitDoor](#35-collisions-mario-exitdoor)
   * [3.6 Collisions Mario ↔ Goombas](#36-collisions-mario-goombas)
@@ -74,7 +74,6 @@ You are provided with skeleton code comprising the following packages and classe
 
 + `tp1`
     - _`Main`_
-    - _`Tests`_
 + `tp1.view`
 	- _`ConsoleColorsAnsiCodes`_
 	- _`ConsoleColorsView`_
@@ -86,8 +85,7 @@ You are provided with skeleton code comprising the following packages and classe
     - `Controller`
 + `tp1.utils`
     - _`MyStringUtils`_
-+ `tp1.logic
-    - `Game`
++ `tp1.logic`
     - `GameObjectContainer`
 	- `Action`
 	- `Position`
@@ -98,7 +96,7 @@ Each package contains several files. The files whose name is shown in italics co
 
 The package structure of the code provided conforms to the Model-View-Controller (MVC) architectural pattern:
 
-+ The **Model**  component of an MVC application contains the logic. In our case, the *Model* contains the rules of the game, the handling of the different elements of the game and, in general, everything concerned with the game such as remaining cycles, remaining lives of Mario, whether or not the game has finished, whether or not the player has won, etc. Correspondingly, in our package structure, the `logic` package contains the `Game` class, the `GameObjectContainer` class and other classes. The `Game` class contains a method `update` to update the state of the game and methods that are called by the `run` method of the `Controller` class (see below) when the corresponding command is entered, such as the `reset` method.
++ The **Model**  component of an MVC application contains the logic. In our case, the *Model* contains the rules of the game, the handling of the different elements of the game and, in general, everything concerned with the game such as remaining cycles, remaining lives of Mario, whether or not the game has finished, whether or not the player has won, etc. Correspondingly, in our package structure, the `model` package contains the `Game` class, the `GameObjectContainer` class and other classes. The `Game` class contains a method `update` to update the state of the game and methods that are called by the `run` method of the `Controller` class (see below) when the corresponding command is entered, such as the `reset` method.
 
 + The **View** component of an MVC application manages the display (or displays). In our case, the *View* is a simple console display. Correspondingly, in our package structure, the `view` package contains the `GameView` class responsible for displaying the state of the game on the console. The constructor of `GameView` receives an instance of the `Game` class. Observe that the `view` package also contains the subclasses `ConsoleView` and `ConsoleColorsView`, the first with no colours and the second with colours; using the no-colours view requires passing the argument `NO_COLORS` to the program on start-up.
 
@@ -123,7 +121,7 @@ To display output on the console, we call the ``showGame()`` method of the ``Gam
 
 - `time`, which stores the remaining cycles; it is initialised to `100` and reduced by `1` on each cycle.
 - `points`, which stores the player's current score; it is initialised to `0` and modified by actions of the game.
-- `lives`, which stores Mario's remaining lives; it is initialised to `3` and is reduced by `1` each time Mario dies; when its value reaches `0`, the game ends and the execution terminates after displaying the message *Game over, player loses!* (if you do not find required constants of type `String` already defined in the `Messages` class, you must add them to this class).
+- `lives`, which stores Mario's remaining lives; it is initialised to `3` and is reduced by `1` each time Mario dies; when its value reaches `0`, the game ends and the execution terminates after displaying the message *Player loses!* (if you do not find required constants of type `String` already defined in the `Messages` class, you must add them to this class).
 
 Next we introduce some game elements. We first create a class `Ground` which represents the ground on which other game elements can move, the simplest game element. Each game element must store its position on the board so the `Ground` class must have, amongst others, the following attribute:
   ```java
@@ -153,9 +151,9 @@ The `GameObjectContainer` class will need attributes of the appropriate type to 
   public void add(ExitDoor exit);
   public void add(Mario mario);
   ```
-It is also the responsibility of the `container` to delegate the requests coming from the `game` to each of the game objects. Note also that we can now move the attribute `lives` from the `Game` class to the `Mario` class, adding a getter invoked by the `GameObjectContainer` class, in turn invoked by the `Game` class, in order to print this information on the console.
+It is also the responsibility of the `container` to delegate the requests coming from the `game` to each of the game objects.
 
-We  now create different worlds, or maps, each containing a different distribution of the game elements defined so far, using methods `private void initLevel0()` and `private void initLevel1()`. The map to be used can be chosen at start-up by passing the level as an argument to the application (see the image): 
+We can now create different worlds, or maps, each containing a different distribution of the game elements defined so far, using methods `private void initLevel0()` and `private void initLevel1()`. The map to be used can be chosen at start-up by passing the level as an argument to the application (see the image): 
 
 ![Execution options](imgs/args.png)
 
@@ -163,7 +161,7 @@ With this mechanism, we can add more maps if we choose. The initial state of ``i
 
 ![Level1](imgs/mapa1.png)
 
-and that of `initLevel0()` should show the same map but with the only `Goomba` object being the one situated at position (0,19). We recommend using this map for debugging.
+and that of `initLevel0()` should show the same map but with the only goomba being the one situated at position (0,19). We recommend using this map for debugging.
 
 This concludes the first step.
 
@@ -191,8 +189,8 @@ Available commands:
 
 Observations concerning the commands:
 
-- The player must be able to type commands in upper-case, lower-case or any mixture of the two.
-- The player must be able to use the abbreviated version of commands (the character that appears in square brackets in the help message) and/or, in the case of the action command, the abbreviated version of the command arguments.
+- The player must be able to introduce commands in upper-case, lower-case or any mixture of the two.
+- The player must be able to use the specified command abbreviations (the character that appears in square brackets in the help message) and/or, in the case of the action command, the specified command-argument abbreviations.
 - The empty command, i.e. simply pressing *return* or whitespace followed by *return*, should have the same effect as the `update` command.
 - If the command introduced by the player does not exist (perhaps due to being badly written) or cannot be executed in the current state, the error message *Error: Unknown command: \<command-entered-by-the-player\>* must be displayed.
 - After the execution of a command that doesn't change the state of the game, e.g. `help`, or after an error, the board must not be displayed.
@@ -201,72 +199,94 @@ We suggest that you first implement the `exit` command, then the `help` command,
 
 This concludes the second step.
 
-<!-- TOC --><a name="33-automatic-movement-and-user-actions"></a>
-### 3.3 Automatic movement and user actions
+<!-- TOC --><a name="33-automatic-movement-and-update"></a>
+### 3.3 Automatic movement and updating the state of the game
 
-#### Automatic movement and the update command
-
-We now enable some of the game elements to move and implement the `[u]pdate|""` command. The key to the implementation of this command is the definition of the method `public void update()` in each of the classes of the objects that are *mobile*, currently only `Mario` and `Goomba`.
-
+We now enable some of the game elements to move and implement the updating of the state of the game. Updating may occur due to use of the `[u]pdate|""` command by the player or as part of other commands (currently, only the `action` command). The key to the implementation of the updating is the definition of the method `public void update()` in each of the classes of the objects that are updatable (which, in the current game is synonymous with *mobile*), currently only `Mario` and `Goomba`.
 - The `update` method of the `Goomba` class only needs to consider automatic movement.
-- The `update` method of the `Mario` class must take into account: 
-  1. automatic movement, 
-  2. any actions introduced by the player, 
-  3. any collisions between Mario and other objects. 
+- The `update` method of the `Mario` class must take into account:
+  1. automatic movement,
+  2. any actions introduced by the player (in the case where the update occurs as part of the `action` command),
+  3. any collisions between Mario and other objects.
 
-##### The `update()` method of the `Goomba` class
+#### The `update()` method of the `Goomba` class
 
 The behaviour of a `Goomba` object is completely automatic, i.e. cannot be changed by commands.
-
-- Initially, it's direction of movement is set as right-to-left.
-- If it has a solid object underneath, it advances (i.e. moves horizontally in its currently-set direction) one cell per cycle.
+- If it has a solid object underneath, it advances (i.e. moves horizontally in its currently-set direction, its inital movement being from right to left) one cell per cycle.
 - If it collides with a solid object or with the side-wall of the board, it starts to move in the opposite direction.
 - If it does not have a solid object underneath, it falls (moves vertically down one cell per cycle) and continues falling each cycle until either it encounters a solid object underneath it, or it leaves the board via the bottom edge; in the latter case, it dies and must be removed from the game (i.e. deleted from the list of `Goomba` objects).
 
-##### The `update()` method of the `Mario` class`
+#### The `update()` method of the `Mario` class`
 
 The automatic movement of `mario` is similar, but not identical, to that of the `Goomba` objects: 
-
 - Initially, `mario`'s direction of movement is set as left-to-right. 
 - When `mario` dies, he loses a life and notifies the game of this loss, in order for it to make the necessary adjustments, namely
     - If the number of lives is still non-zero, reset the game
     - If the number of lives is now zero, terminate the game after printing the message *Game over, player loses!*. 
     
 As well as this automatic movement, the `update` method of the `Mario` class must also take into account:
-
 - The actions added by the player (stored in an object of the `ActionList` class, see below). 
 - The collisions with other objects on the board (namely, `Goomba` objects or the `exitDoor`).
 
 This will be dealt with in the following section.
 
-##### The `update()` method of `Game` and `GameObjectContainer`
+#### The `update()` method of `Game` and `GameObjectContainer`
 
-For the updating to work, an `public void update()` method is also needed in the `Game` class. This method 
+The updating is coordinated by the `game` object using the `public void update()` method of the `Game` class. This method:
+1. Updates the time
+2. Calls the `update()` method of the associated `container` object. 
+3. which, calls the `update()` methods of each of the associated updatable game objects.
 
-1. Calls the `update()` method of the `GameObjectContainer` class. 
-2. which, calls the `update()` methods of each of the updatable game objects. 
-
-In order for the output (display) of our program to be the same as that assumed in the tests, it is **very important** that you respect the order in which the game objects are to be updated.
-
+In order for the output (display) of our program to be the same as that assumed by the tests, it is **very important** that you respect the order in which the associated mobile game objects are to be updated.
 1. **First Mario**. 
 2. **Second Goombas**. 
-
-This concludes the third step.
-
-##### The `update()` method of the `Mario` class`
-
-*To be added shortly...*
-
-##### The `update()` method of `Game` and `GameObjectContainer`
-
-*To be added shortly...*
 
 This concludes the third step.
 
 <!-- TOC --><a name="34-mario-actions"></a>
 ### 3.4 Mario actions
 
-*To be added shortly...*
+As well as automatic movement, `mario` must carry out the actions specified by the player as arguments of the `action` command. Since the `action` command admits multiple arguments, an `ActionList` class is used to manage the actions corresponding to these arguments. Recall that the player must be able to introduce the action-command arguments in upper-case, lower-case or any mixture of the two, and must also be able to use their abbreviations. For example:
+```java
+Command > action up UP rIGhT
+```
+o
+```java
+Command > a u u r
+```
+
+#### Permissible actions
+
+The permissible actions specify `mario` movements and are represented by the literals of the `Action` enum.
+
+- **LEFT / RIGHT**: `mario` changes his direction of horizontal movement to that indicated and advances one step in that direction; the icon used to display `mario` changes accordingly.
+- **UP**: causes `mario` to move vertically upwards one cell, without changing his direction of horizontal movement or his icon.
+- **DOWN**: If Mario is in the air (i.e. not on the ground), he falls until either he reaches a solid object (currently only the ground) or he leaves the board. <!-- does he die? -->If he is on the ground, his horizontal movement is deactivated (so this is equivalent to using the `STOP` action) and his icon changes to **🧑**, -- doubled, if `mario` is currently big -- to indicate this.
+- **STOP**: deactivates `mario`'s horizontal movement, changing his icon to **🧑** -- doubled, if `mario` is currently big. In this deactivated state, vertical actions (`UP` or `DOWN`) execute normally, with the icon remaining **🧑** ; note that, in this state, a `DOWN` action with `mario` on the ground has no effect.
+
+
+#### The `ActionList` class
+
+The `ActionList` class manages the actions that the player introduces via the `action` command for `mario` to carry out in the current cycle:
+
+- It stores a FIFO list of actions to be executed on the next `mario` update.
+- It applies the following restrictions in order to avoid incoherent combinations of actions, where (`LEFT`,`RIGHT`) and (`UP`, `DOWN`) are opposite pairs of actions:
+
+  - opposite actions cannot be executed in the same cycle; if the arguments of an `action` command contains opposites, the first is used and subsequent opposite actions are ignored.
+  - up to 4 occurrences of the same action can be executed on the same cycle; if the arguments of an `action` command contain more than 4 occurrences of the same action, subsequent repetitions are ignored.
+
+
+#### Action execution
+
+After the player introduces an `action` command, execution proceeds as follows:
+
+1. The `controller` *parses* each command argument (in fact, it should delegate this task to a method of the `Action` class) to create an instance of the `Action` class, i.e. an enum literal, then calls an `addAction(Action act)` method of the `game` in order to add this `Action` object to the action list managed by `mario`.
+2. On the each cycle, as part of the update, `mario` executes all the pending actions (those on the action list) in order of arrival (i.e. a FIFO list), while respecting the above restrictions on combining actions. After executing all the pending actions, the action list is empty (alternatively, we could create a new list on each use of the `action` command but this could be considered to be an abuse of the garbage collection service).
+3. If `mario`'s position has not changed after executing all the actions on the action list, the automatic movement is applied, otherwise, it is **not** applied.
+
+
+This concludes the fourth step.
+
 
 <!-- TOC --><a name="35-collisions-mario-exitdoor"></a>
 ### 3.5 Collisions mario  ↔  exitDoor
@@ -291,5 +311,4 @@ This concludes the last step.
 ## 5. Testing
 
 *To be added shortly...*
-
 
