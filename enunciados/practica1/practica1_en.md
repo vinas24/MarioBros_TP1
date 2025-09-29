@@ -250,7 +250,7 @@ As well as automatic movement, `mario` must carry out the actions specified by t
 ```java
 Command > action up UP rIGhT
 ```
-o
+or
 ```java
 Command > a u u r
 ```
