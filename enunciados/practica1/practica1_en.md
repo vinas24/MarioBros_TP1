@@ -280,7 +280,7 @@ The `ActionList` class manages the actions that the player introduces via the `a
 
 After the player introduces an `action` command, execution proceeds as follows:
 
-1. The `controller` *parses* each command argument (in fact, it should delegate this task to a method of the `Action` class) to create an instance of the `Action` class, i.e. an enum literal, then calls an `addAction(Action act)` method of the `game` in order to add this `Action` object to the action list managed by `mario`.
+1. The unique instance of the `Controller` class that exists in the game (we will refer to this object as the `controller` or the controller object) *parses* each command argument (in fact, it should delegate this task to a method of the `Action` class) to create an instance of the `Action` class, i.e. an enum literal, then calls an `addAction(Action act)` method of the `game` in order to add this `Action` object to the action list managed by `mario`.
 2. On the each cycle, as part of the update, `mario` executes all the pending actions (those on the action list) in order of arrival (i.e. a FIFO list), while respecting the above restrictions on combining actions. After executing all the pending actions, the action list is empty (alternatively, we could create a new list on each use of the `action` command but this could be considered to be an abuse of the garbage collection service).
 3. If `mario`'s position has not changed after executing all the actions on the action list, the automatic movement is applied, otherwise, it is **not** applied.
 
