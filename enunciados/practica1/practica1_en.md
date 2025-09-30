@@ -268,10 +268,8 @@ The permissible actions specify `mario` movements and are represented by the lit
 #### The `ActionList` class
 
 The `ActionList` class manages the actions that the player introduces via the `action` command for `mario` to carry out in the current cycle:
-
 - It stores a FIFO list of actions to be executed on the next `mario` update.
 - It applies the following restrictions in order to avoid incoherent combinations of actions, where (`LEFT`,`RIGHT`) and (`UP`, `DOWN`) are opposite pairs of actions:
-
   - opposite actions cannot be executed in the same cycle; if the arguments of an `action` command contains opposites, the first is used and subsequent opposite actions are ignored.
   - up to 4 occurrences of the same action can be executed on the same cycle; if the arguments of an `action` command contain more than 4 occurrences of the same action, subsequent repetitions are ignored.
 
