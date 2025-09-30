@@ -284,19 +284,95 @@ After the player introduces an `action` command, execution proceeds as follows:
 2. On the each cycle, as part of the update, `mario` executes all the pending actions (those on the action list) in order of arrival (i.e. a FIFO list), while respecting the above restrictions on combining actions. After executing all the pending actions, the action list is empty (alternatively, we could create a new list on each use of the `action` command but this could be considered to be an abuse of the garbage collection service).
 3. If `mario`'s position has not changed after executing all the actions on the action list, the automatic movement is applied, otherwise, it is **not** applied.
 
-
 This concludes the fourth step.
-
 
 <!-- TOC --><a name="35-collisions-mario-exitdoor"></a>
 ### 3.5 Collisions mario  ↔  exitDoor
 
-*To be added shortly...*
+We now turn to the question of collisions between objects, starting with the collision between `mario` and the `exitDoor`. This collision is to be managed using the following method of the `Mario` class.
+
+```java
+public boolean interactWith(ExitDoor other);
+```
+
+The `interactWith` method checks if `mario` is on the same position as the `exitDoor` and, if so, invokes the following method of the `Game` class:
+
+```java
+public void marioExited()
+```
+
+The `marioExited` method adds the value returned by the `remainingTime` method multiplied by 10 to the player's score, and terminates the program after printing the following message on the console: *Thanks, Mario! Your mission is complete.* Checking for the interaction between `mario` and the exit door must be carried out on each cycle as part of the update: the `update` method of the `container` traverses all the instances of the `ExitDoor` class (currently, there is only one) to see if any of these objects has a collision with `mario`·
+
+The structure of the update code now looks as follows:
+```text
+call update method on the game object
+└─> decrement time
+└─> call update method on the container object
+      ├─> call update method on mario ──> execute actions and/or automatic movement
+      ├─> checkMarioinExit ──> check for collisions between mario and the exitDoor
+      └─> for g in Goombas:
+             call update method on g ──> automatic movement
+```
+
+This concludes the fifth step.
 
 <!-- TOC --><a name="36-collisions-mario-goombas"></a>
 ### 3.6 Collisions mario ↔ goombas
 
-*To be added shortly...*
+We first need to define the rules of the game governing mario-goomba collisions. They are as follows:
++ The outcome for the goomba is that it dies and, in consequence, `100` points is added to the player's score.
++ The outcome for `mario` depends on his state:
+  - If he is falling and has fallen onto a goomba, his state remains unchanged.
+  - If he is not falling
+    - if he is currently `big`, he becomes not `big`
+    - if he is currently not `big`, he loses a life.
+
+We now describe how these rules are to be implemented. Note that checking for collisions must be carried out after every single movement `mario` makes, whether or not this movement is automatic. As we will see, the mechanism used to implement collisions is not symmetric w.r.t. the two parties involved. To implement the rules, we use two methods, the first being a method of the `Mario` class:
+
+```java
+public boolean interactWith(Goomba other)
+```
+which checks whether or not `mario` has collided with the `Goomba` object passed via the `other` parameter. If so, it implements the effect of the collision on the owning object of the `Mario` class and notifies the `Goomba` object that it has collided with `mario` by calling the following method of the `Goomba` class on that object:
+
+```java
+public boolean receiveInteraction(Mario other)
+```
+This method is responsible for implementing the effect of the collision on the goomba and for any necessary modifications to the game, in particular, concerning the player's score.
+
+But who calls `mario`'s `interactWith` method? To answer this question, note that it is the responsability of the `container` to manage the game objects that it contains and therefore, it is the `container` via the method:
+
+```java
+public void doInteractionsFrom(Mario mario)
+```
+which calls `mario`'s `interactWith` method, once for each goomba in the game.
+
+In turn, the `doInteractionsFrom` method of the `container` is called by a method with the same method signature (method signature = method name + number and type of parameters + return type) in the `game`, i.e. the `doInteractionsFrom` method of the `Game` class simply delegates to the `doInteractionsFrom` method of the `Container` class. 
+
+We have described the mechanism used for the `game` to check for `mario`-goomba collisions. Now we need to specify when this mechanism must be used. To detect all possible `mario`-goomba collisions, it must be used after `mario` movements as well as after goomba movements:
+- for each `mario` movement, whether this is due to executing an action or is the automatic movement; in this case, the call to the `doInteractionsFrom` method of the `Game` class is made from the `Mario` class,
+- after all the goombas have moved; in this case the call to the `doInteractionsFrom` method of the `Game` class can be made from the `GameObjectContainer` class.
+
+Finally, the `update` method of the container should remove any dead goombas from the list of `Goomba` objects that it maintains.
+
+The structure of the `update` code now looks as follows:
+```text
+call update method on the game object
+└─> decrement time
+└─> call update method on the container object
+      ├─> call update method on mario ──> execute actions and/or automatic movement
+      │       └─> call doInteractionsFrom method on the game object
+      │              └─> call doInteractionsFrom method on the container object
+      │                     └─> for g in Goombas:
+      │                            call interactWith(g) on mario
+      ├─> checkMarioinExit ──> check for collisions between mario and the exitDoor
+      ├─> for g in Goombas:
+      │       call update() on g ──> automatic movement
+      └─> call doInteractionsFrom method on the game object
+      │       └─> call doInteractionsFrom method on the container object
+      │              └─> for g in Goombas:
+      │                     call interactWith(g) on mario
+      └─> cleanUp ──> eliminate any dead goombas
+```
 
 This concludes the last step.
 
