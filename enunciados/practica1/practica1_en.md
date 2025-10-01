@@ -434,7 +434,7 @@ If you detect an error in the output of any of the test cases provided please le
 You should also create and execute your own test cases to check the correctness of other executions of your implementation, as we will do during the correction of the assignments.
 
 <!-- TOC --><a name="51-JUnit"></a>
-### Automatización de las pruebas: JUnit
+### Automating the tests: JUnit
 
 In order to simplify the tests and automate the above process, we will "abuse" the JUnit (https://junit.org/) library included in Eclipse. JUnit is a framework for executing test cases on Java code that you will most likely come across in other courses of your degree. If you have not already done so, you will need to add the JUnit library to your Java project. To do so, select the *Properties* option of the *Project* menu then select *Java Build Path* and then the *Libraries* tab. With *Classpath* selected (not *ModulePath*) click on the *Add Library...* button.
 
