@@ -92,7 +92,7 @@ You are provided with skeleton code comprising the following packages and classe
 + `tp1.logic.gameobjects`
     - `Mario`
 
-Each package contains several files. The files whose name is shown in italics contain completely implemented classes; you should not change the code contained in any of these files. The other files contain partially implemented classes, to which you will need to add more attributes and methods. You may also need to create additional classes and packages.
+Each package contains several files. The files whose name is shown in italics contain completely implemented classes; you should not change the code contained in any of these files. The other files contain partially implemented classes, to which you will need to add more attributes and methods. You may also need to create additional classes and packages. The application is launched by executing the `tp1.Main` class.
 
 The package structure of the code provided conforms to the Model-View-Controller (MVC) architectural pattern:
 
@@ -103,7 +103,17 @@ The package structure of the code provided conforms to the Model-View-Controller
 + The **Controller**  component of an MVC application recieves the user input, parses it and passes the resulting data to the *Model* for processing before telling the *View* to display the results. In our case, the *Controller* handles only simple commands rather than, for example, capturing keyboard presses or receiving network requests. Correspondingly, in our package structure, the `control` package contains the `Controller` class whose `run` method contains the main loop of the game: while the game has not finished, call the the appropriate method of the `GameView` class to display the state of the game, then prompt the player to enter a command, then call the appropriate method of the `Game` class to process the chosen command. Notice that the `Controller` class should **not** contain any of the game logic, since the logic belongs in the *Model*.
 
 <!-- TOC --><a name="3-stages"></a>
-## 3. Dividing the implementation into stages
+## 3. Implementation (in stages)
+
+We start this section by observing that the quality of the implementation proposed here is not optimal,
+one of the reasons for this being that it does not adhere to the **DRY (Don't Repeat Yourself)**
+programming principle. The duplication of
+code in different parts of a program makes it less maintainable, less readable and less
+testable; modifying such a program is considerably more complicated and error-prone.
+In the second assignment, we will *refactorise* the code, improving it by
+introducing **inheritance** and **polymorphism**, two basic tools of
+object-oriented programming (OOP), thereby converting it into a genuine
+object-oriented program and facilitating conformity with the DRY principle.
 
 In this section, we divide the implementation of the assignment into stages in order to guide you in your task-planning and error-correction, as well as to help your understanding; dividing the implementation into stages (thereby avoiding trying to implement everything, everywhere, all at once!) obliges you to fully understand the part of the implementation developed in each stage before you move on to the next. We also explain the function of certain important classes, methods and attributes.
 
