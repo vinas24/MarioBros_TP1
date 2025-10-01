@@ -418,14 +418,14 @@ To take the input of a Java program from a given input text file and send the ou
 in the `Common` tab of the `Run Configurations` window as shown in the following figure. The easiest
 thing to do is to create at least one `Run Configuration` for each test case.
 
-![Input-output Redirection](imgs/Bitmap/Pr1/runConfigurationsCommon.png)
+![Input-output redirection](imgs/runConfigurationsCommon.png)
 
 There are many free programs to visually compare files and thereby check that the output of your
 program coincides with the expected output for each of the test cases we provide. In particular,
 there is one integrated in Eclipse: select the files you wish to compare, press the right button
 and then select `Compare With > Each other` in the pop-up menu, as shown in the following figure:
 
-![Cómo comparar dos archivos en Eclipse](imgs/Bitmap/Pr1/Eclipse_Compare_EachOther.png)
+![Comparing files in Eclipse](imgs/Eclipse_Compare_EachOther.png)
 
 Another window will appear showing clearly the differences between the two text files. Two other possibilities are [Beyond compare](https://www.scootersoftware.com/) and [DiffMerge](https://sourcegear.com/diffmerge/).
 
