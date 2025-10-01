@@ -15,7 +15,7 @@ string handling with the `String` class; input-output on the console.
   * [1.1 Introduction](#11-introduction)
   * [1.2. Details](#12-details)
 - [2. Structure of the project](#2-project-structure)
-- [3. Dividing the implementation into stages](#3-stages)
+- [3. Implementation (in stages)](#3-stages)
   * [3.1 Displaying the board](#31-display)
   * [3.2 Basic commands and the main loop](#32-main-loop-basic-commands)
   * [3.3 Automatic movement and updating the state of the game](#33-automatic-movement-and-update)
