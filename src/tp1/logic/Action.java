@@ -24,5 +24,17 @@ public enum Action {
 	}
 	
 	//TODO fill your code
-	
+
+
+	public Action invertirDireccion() {
+		Action inv;
+		switch (this){
+			case UP -> inv = DOWN;
+			case DOWN -> inv = UP;
+			case LEFT -> inv = RIGHT;
+			case RIGHT -> inv = LEFT;
+			default -> inv = STOP;
+		}
+		return inv;
+	}
 }

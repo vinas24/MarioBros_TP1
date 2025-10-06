@@ -160,7 +160,7 @@ public class Game {
 
 	//para el comando reset
 	//TODO revisarlo
-	public void updateLevel(int nLevel) {
+	public void resetLevel(int nLevel) {
 		if(nLevel == 0) {
 			initLevel0();
 		}
@@ -168,7 +168,11 @@ public class Game {
 			initLevel1();
 		}
 		else{
-			updateLevel(this.nLevel);
+			resetLevel(this.nLevel);
 		}
+	}
+
+	public void update() {
+		this.container.update();
 	}
 }

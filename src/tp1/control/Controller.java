@@ -43,14 +43,14 @@ public class Controller {
 				//Si el lvl es un nivel, cargará ese lvl
 				int lvl = Integer.parseInt(prompt[1]);
 				// No sé como cargar un nuevo juego sobre el actual, claramente esto esta mal
-				game.updateLevel(lvl);
+				game.resetLevel(lvl);
 			}
 		}
 		else if(prompt[0].equalsIgnoreCase("action") || prompt[0].equalsIgnoreCase("a")) {
 			//TODO pide que accion realizará mario, pueden encadenarse varias
 		}
 		else if(prompt[0].equalsIgnoreCase("update") || prompt[0].equalsIgnoreCase("u") || prompt[0].equalsIgnoreCase("")) {
-			//TODO: no pide mas argumento, "pasa" el tiempo como si mario no hiciera nada
+			game.update();
 		}
 
 		return exit;
@@ -62,16 +62,13 @@ public class Controller {
 		boolean exit = false;
 		view.showWelcome();
 		view.showGame();
-
 		//TODO fill your code: The main loop that displays the game, asks the user for input, and executes the action.
 		while (!game.isFinished() && !exit) {
 			// Pedir una línea al usuario (getPromt)
 			prompt = view.getPrompt();
 			exit = comando(prompt);
-
 			// Ejecutar el comando del usuario (método) (por ahora solo muestra
 			view.showGame();
-
 		}
 		view.showEndMessage();
 	}

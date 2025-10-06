@@ -2,6 +2,7 @@
 
 package tp1.logic;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import tp1.logic.gameobjects.ExitDoor;
@@ -69,17 +70,31 @@ public class GameObjectContainer {
             if(land.isInPosition(col, row)) S = land.getIcon();
         }
 
-        if(S==Messages.EMPTY) {
+        if(S.equals(Messages.EMPTY)) {
             for(Goomba goomba: lista_goomba) {
                 if(goomba.isInPosition(col, row)) S = goomba.getIcon();
             }
         }
 
-        if(S==Messages.EMPTY && exitdoor.isInPosition(col, row)) S = exitdoor.getIcon();
+        if(S.equals(Messages.EMPTY) && exitdoor.isInPosition(col, row)) S = exitdoor.getIcon();
 
-        if(S==Messages.EMPTY && mario.isInPosition(col, row)) S = mario.getIcon();
+        if(S.equals(Messages.EMPTY) && mario.isInPosition(col, row)) S = mario.getIcon();
         return S;
     }
+
+    public void update(){
+        //Primero update de mario,
+        //para darle prioridad en las colisiones
+        this.mario.update();
+        //Luego todos los goombas
+        for(Goomba g: lista_goomba) {
+            g.update(lista_land);
+        }
+        //borramos los goombas muertos
+        //Mire en stackOverflow como, dentro del for se rompía
+        lista_goomba.removeIf(Goomba::isDead);
+    }
+
 
 
 }
