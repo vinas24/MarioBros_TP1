@@ -22,13 +22,12 @@ public class Main {
 		
 		try {
 			
-			int nLevel = 1;
+			int nLevel = 0;
 			if (args.length != 0) nLevel = Integer.parseInt(args[0]);
 
             Game game = new Game(nLevel);
             GameView view = args.length>1 ? new ConsoleView(game): new ConsoleColorsView(game);
             Controller controller = new Controller(game, view);
-					
 			controller.run();
 
 		} catch (NumberFormatException e) {

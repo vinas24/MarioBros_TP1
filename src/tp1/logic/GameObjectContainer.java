@@ -62,6 +62,7 @@ public class GameObjectContainer {
         }
         return ok;
     }
+
     public String positionToIcon(int col, int row){
         String S = Messages.EMPTY;
         for(Land land: lista_land) {
@@ -79,4 +80,6 @@ public class GameObjectContainer {
         if(S==Messages.EMPTY && mario.isInPosition(col, row)) S = mario.getIcon();
         return S;
     }
+
+
 }

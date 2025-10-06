@@ -18,6 +18,11 @@ public class Position {
 	public boolean equals(int col, int row) {
 		return this.col == col && this.row == row;
 	}
+
 	//TODO fill your code
+	//Por si hace falta
+	public Position PosInferior() {
+		return new Position(this.col-1, this.row-1);
+	}
 
 }

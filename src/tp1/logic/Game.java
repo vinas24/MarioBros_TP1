@@ -15,6 +15,7 @@ public class Game {
 	private int nLevel;
 	private int remainingTime;
 	private Mario mario;
+
 	public Game(int nLevel) {
 		// TODO Auto-generated constructor stub
 		if(nLevel == 0) {
@@ -24,8 +25,6 @@ public class Game {
 			initLevel1();
 		}
 	}
-
-
 
 	public String positionToString(int col, int row) {
 		// TODO Auto-generated method stub
@@ -110,7 +109,7 @@ public class Game {
 	}
 
 	private void initLevel1() {
-		this.nLevel = 0;
+		this.nLevel = 1;
 		this.remainingTime = 100;
 
 		// 1. Mapa
@@ -156,5 +155,20 @@ public class Game {
 		container.add(new Goomba(new Position(12, 11)));
 		container.add(new Goomba(new Position(12, 14)));
 		container.add(new Goomba(new Position(10, 10)));
+	}
+
+
+	//para el comando reset
+	//TODO revisarlo
+	public void updateLevel(int nLevel) {
+		if(nLevel == 0) {
+			initLevel0();
+		}
+		else if(nLevel == 1) {
+			initLevel1();
+		}
+		else{
+			updateLevel(this.nLevel);
+		}
 	}
 }

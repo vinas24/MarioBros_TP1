@@ -17,7 +17,11 @@ public class Mario {
 	}
 
 	public boolean isInPosition(int col, int row) {
-		// TODO Auto-generated method stub
 		return this.pos.equals(col, row);
+	}
+
+	//TODO mario tendrá movimiento automatico o inducido por el jugador
+	public void update(){
+
 	}
 }

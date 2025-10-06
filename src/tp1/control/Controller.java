@@ -1,7 +1,9 @@
 package tp1.control;
 
 import tp1.logic.Game;
+import tp1.view.ConsoleView;
 import tp1.view.GameView;
+import tp1.view.Messages;
 
 /**
  *  Accepts user input and coordinates the game execution logic
@@ -19,15 +21,58 @@ public class Controller {
 
 	/**
 	 * Runs the game logic, coordinate Model(game) and View(view)
-	 * 
+	 *
 	 */
-	public void run() {
-		view.showWelcome();
-		
-		//TODO fill your code: The main loop that displays the game, asks the user for input, and executes the action.
-		view.showGame();
-		
-		view.showEndMessage();
+	private boolean comando(String [] prompt) {
+		boolean exit = false;
+		if(prompt[0].equalsIgnoreCase("exit")||prompt[0].equalsIgnoreCase("e")) {
+			//cierra el programa
+			exit = true;
+		}
+
+		else if(prompt[0].equalsIgnoreCase("help")||prompt[0].equalsIgnoreCase("h")) {
+			//Muestra una guia de los posibles comandos
+			view.showMessage(Messages.HELP);
+		}
+
+		else if(prompt[0].equalsIgnoreCase("reset")||prompt[0].equalsIgnoreCase("r")) {
+			//TODO pedirá un numero de nivel y lo cargará
+			//super rudimentario, por ahora mira si el el promt son solo nums
+			if(prompt.length == 1 || !prompt[1].matches("^[0-9]+")) view.showMessage(Messages.LEVEL_NOT_A_NUMBER_ERROR);
+			else {
+				//Si el lvl es un nivel, cargará ese lvl
+				int lvl = Integer.parseInt(prompt[1]);
+				// No sé como cargar un nuevo juego sobre el actual, claramente esto esta mal
+				game.updateLevel(lvl);
+			}
+		}
+		else if(prompt[0].equalsIgnoreCase("action") || prompt[0].equalsIgnoreCase("a")) {
+			//TODO pide que accion realizará mario, pueden encadenarse varias
+		}
+		else if(prompt[0].equalsIgnoreCase("update") || prompt[0].equalsIgnoreCase("u") || prompt[0].equalsIgnoreCase("")) {
+			//TODO: no pide mas argumento, "pasa" el tiempo como si mario no hiciera nada
+		}
+
+		return exit;
 	}
 
+
+	public void run() {
+		String [] prompt;
+		boolean exit = false;
+		view.showWelcome();
+		view.showGame();
+
+		//TODO fill your code: The main loop that displays the game, asks the user for input, and executes the action.
+		while (!game.isFinished() && !exit) {
+			// Pedir una línea al usuario (getPromt)
+			prompt = view.getPrompt();
+			exit = comando(prompt);
+
+			// Ejecutar el comando del usuario (método) (por ahora solo muestra
+			view.showGame();
+
+		}
+		view.showEndMessage();
+	}
 }
