@@ -1,7 +1,7 @@
 package tp1.control;
 
+import tp1.logic.ActionList;
 import tp1.logic.Game;
-import tp1.view.ConsoleView;
 import tp1.view.GameView;
 import tp1.view.Messages;
 
@@ -48,9 +48,13 @@ public class Controller {
 		}
 		else if(prompt[0].equalsIgnoreCase("action") || prompt[0].equalsIgnoreCase("a")) {
 			//TODO pide que accion realizará mario, pueden encadenarse varias
+			ActionList acciones = new ActionList(prompt);
+			acciones.mostrar(); //Debug
+			game.update(acciones);
 		}
 		else if(prompt[0].equalsIgnoreCase("update") || prompt[0].equalsIgnoreCase("u") || prompt[0].equalsIgnoreCase("")) {
-			game.update();
+			//se llama con un action list vacio
+			game.update(new ActionList());
 		}
 
 		return exit;
@@ -67,7 +71,7 @@ public class Controller {
 			// Pedir una línea al usuario (getPromt)
 			prompt = view.getPrompt();
 			exit = comando(prompt);
-			// Ejecutar el comando del usuario (método) (por ahora solo muestra
+			// Ejecutar el comando del usuario (métod) (por ahora solo muestra
 			view.showGame();
 		}
 		view.showEndMessage();

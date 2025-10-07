@@ -11,8 +11,8 @@ import static tp1.logic.Game.DIM_Y;
  */
 public class Position {
 
-	public int col;
-	public int row;
+	private int col;
+	private int row;
 
 	public Position(int row, int col) {
 		this.col = col;
@@ -22,6 +22,7 @@ public class Position {
 	public boolean equals(int col, int row) {
 		return this.col == col && this.row == row;
 	}
+	public boolean equals(Position otro){return this.equals(otro.col, otro.row); }
 
 	//TODO fill your code
 	//Por si hace falta meto métodos
@@ -38,7 +39,7 @@ public class Position {
 	}
 
 	public boolean enBorde() {
-		return (this.col == 0 || this.col == DIM_X);
+		return (this.col < 0 || this.col > DIM_X);
 	}
 
 }

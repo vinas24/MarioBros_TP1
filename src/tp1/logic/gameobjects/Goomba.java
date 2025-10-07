@@ -37,7 +37,7 @@ public class Goomba {
     // Si no tiene suelo debajo, cae una casilla hacia abajo hasta volver a encontrarse con un objeto sólido.
     // Si sale del tablero por abajo, muere.
     // Cuando un Goomba muere, debe ser eliminado de la lista de Goombas.
-    public void update(List<Land> l){
+    public void update(List<Land> l) {
         //TODO: Hacer que muera y se elimine si se va fuera del tablero
         if(isGoombaGrounded(l)) {
             if(isGoombaObstaculized(l,dir)){
@@ -58,7 +58,7 @@ public class Goomba {
         boolean grounded = false;
         for(Land l: lands) {
             //TODO: no debería de poder acceder a los atributos de pos
-           if (l.isInPosition(inferior.col ,inferior.row)) grounded = true;
+           if (l.isInPosition(inferior)) grounded = true;
         }
         return grounded;
     }
@@ -68,9 +68,9 @@ public class Goomba {
         boolean hayObstaculo = false;
         for(Land l: lands) {
             //TODO: no debería de poder acceder a los atributos de pos
-            if (l.isInPosition(p.col ,p.row)) hayObstaculo = true;
+            if (l.isInPosition(p)) hayObstaculo = true;
         }
-        if(this.pos.enBorde()) hayObstaculo = true;
+        if(p.enBorde()) hayObstaculo = true;
 
         return hayObstaculo;
     }

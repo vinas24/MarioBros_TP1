@@ -2,7 +2,6 @@
 
 package tp1.logic;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import tp1.logic.gameobjects.ExitDoor;
@@ -82,10 +81,10 @@ public class GameObjectContainer {
         return S;
     }
 
-    public void update(){
+    public void update(ActionList acciones) {
         //Primero update de mario,
         //para darle prioridad en las colisiones
-        this.mario.update();
+        this.mario.update(lista_land, acciones);
         //Luego todos los goombas
         for(Goomba g: lista_goomba) {
             g.update(lista_land);

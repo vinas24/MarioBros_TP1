@@ -172,7 +172,7 @@ public class Game {
 		}
 	}
 
-	public void update() {
-		this.container.update();
+	public void update(ActionList acciones) {
+		this.container.update(acciones);
 	}
 }
