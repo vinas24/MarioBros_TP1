@@ -81,10 +81,11 @@ public class GameObjectContainer {
         return S;
     }
 
-    public void update(ActionList acciones) {
+    public void update() {
         //Primero update de mario,
         //para darle prioridad en las colisiones
-        this.mario.update(lista_land, acciones);
+        //TODO: Por ahora paso un action list vacio
+        this.mario.update(lista_land, new ActionList());
         //Luego todos los goombas
         for(Goomba g: lista_goomba) {
             g.update(lista_land);

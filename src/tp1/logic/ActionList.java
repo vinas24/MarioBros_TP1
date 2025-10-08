@@ -13,23 +13,13 @@ public class ActionList {
         this.lista_acciones =  new ArrayList<>();
     }
 
-    public ActionList(String[] prompt) {
-        this.lista_acciones =  new ArrayList<>();
-        Iterator<String> i = Arrays.stream(prompt).iterator();
-        i.next(); //limpiamos el prmero;
-        while(i.hasNext()){
-            switch (i.next().toLowerCase()){
-                case "u", "up" -> lista_acciones.add(Action.UP);
-                case "d", "down" -> lista_acciones.add(Action.DOWN);
-                case "l", "left" -> lista_acciones.add(Action.LEFT);
-                case "right", "r" -> lista_acciones.add(Action.RIGHT);
-                default -> lista_acciones.add(Action.STOP);
-            }
-        }
-    }
 
     public boolean isVacio(){
         return lista_acciones.isEmpty();
+    }
+
+    public void add(Action a) {
+        lista_acciones.add(a);
     }
 
     //para el debugger

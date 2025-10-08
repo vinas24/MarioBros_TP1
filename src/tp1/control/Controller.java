@@ -1,9 +1,13 @@
 package tp1.control;
 
+import tp1.logic.Action;
 import tp1.logic.ActionList;
 import tp1.logic.Game;
 import tp1.view.GameView;
 import tp1.view.Messages;
+
+import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  *  Accepts user input and coordinates the game execution logic
@@ -48,13 +52,22 @@ public class Controller {
 		}
 		else if(prompt[0].equalsIgnoreCase("action") || prompt[0].equalsIgnoreCase("a")) {
 			//TODO pide que accion realizará mario, pueden encadenarse varias
-			ActionList acciones = new ActionList(prompt);
-			acciones.mostrar(); //Debug
-			game.update(acciones);
+			Iterator<String> i = Arrays.stream(prompt).iterator();
+			i.next(); //limpiamos el prmero;
+			while(i.hasNext()){
+				switch (i.next().toLowerCase()){
+					case "u", "up" -> game.addAction(Action.UP);
+					case "d", "down" -> game.addAction(Action.DOWN);
+					case "l", "left" -> game.addAction(Action.LEFT);
+					case "right", "r" -> game.addAction(Action.RIGHT);
+					default -> game.addAction(Action.STOP);
+				}
+			}
+
 		}
 		else if(prompt[0].equalsIgnoreCase("update") || prompt[0].equalsIgnoreCase("u") || prompt[0].equalsIgnoreCase("")) {
 			//se llama con un action list vacio
-			game.update(new ActionList());
+			game.update();
 		}
 
 		return exit;
@@ -73,6 +86,7 @@ public class Controller {
 			exit = comando(prompt);
 			// Ejecutar el comando del usuario (métod) (por ahora solo muestra
 			view.showGame();
+			game.mostarColaAcciones();
 		}
 		view.showEndMessage();
 	}

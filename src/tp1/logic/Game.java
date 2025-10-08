@@ -15,9 +15,12 @@ public class Game {
 	private int nLevel;
 	private int remainingTime;
 	private Mario mario;
+	private ActionList lista_acciones;
 
 	public Game(int nLevel) {
 		// TODO Auto-generated constructor stub
+		lista_acciones = new ActionList();
+
 		if(nLevel == 0) {
 			initLevel0();
 		}
@@ -172,7 +175,16 @@ public class Game {
 		}
 	}
 
-	public void update(ActionList acciones) {
-		this.container.update(acciones);
+	public void update() {
+		this.container.update();
+	}
+
+	public void addAction(Action a){
+		lista_acciones.add(a);
+	}
+
+	//debugg Aswell
+	public void mostarColaAcciones() {
+		lista_acciones.mostrar();
 	}
 }
