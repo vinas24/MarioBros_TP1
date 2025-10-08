@@ -14,13 +14,14 @@ public class Game {
 	private GameObjectContainer container;
 	private int nLevel;
 	private int remainingTime;
+	private int points;
 	private Mario mario;
 	private ActionList lista_acciones;
 
 	public Game(int nLevel) {
 		// TODO Auto-generated constructor stub
 		lista_acciones = new ActionList();
-
+		points = 0;
 		if(nLevel == 0) {
 			initLevel0();
 		}
@@ -36,7 +37,7 @@ public class Game {
 
 	public boolean playerWins() {
 		// TODO Auto-generated method stub
-		return this.container.isMarioInDoor();
+		return false;
 	}
 
 	public boolean playerLoses() {
@@ -44,17 +45,14 @@ public class Game {
 	}
 
 	public int remainingTime() {
-		// TODO Auto-generated method stub
-		return 100;
+		return this.remainingTime;
 	}
 
 	public int points() {
-		// TODO Auto-generated method stub
-		return 0;
+		return points;
 	}
 
 	public int numLives() {
-		// TODO Auto-generated method stub
 		return 3;
 	}
 
@@ -176,15 +174,11 @@ public class Game {
 	}
 
 	public void update() {
-		this.container.update();
+		this.container.update(this.lista_acciones);
 	}
 
 	public void addAction(Action a){
 		lista_acciones.add(a);
 	}
 
-	//debugg Aswell
-	public void mostarColaAcciones() {
-		lista_acciones.mostrar();
-	}
 }

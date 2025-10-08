@@ -22,10 +22,10 @@ public class Position {
 	public boolean equals(int col, int row) {
 		return this.col == col && this.row == row;
 	}
+
 	public boolean equals(Position otro){return this.equals(otro.col, otro.row); }
 
-	//TODO fill your code
-	//Por si hace falta meto métodos
+
 	public Position moverPosicion(Action a){
 		return new Position(this.row + a.getY(), this.col + a.getX());
 	}

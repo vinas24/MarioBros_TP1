@@ -16,10 +16,6 @@ public class Land {
         return Messages.LAND;
     }
 
-    public boolean isInPosition(int col, int row) {
-        return this.pos.equals(col, row);
-    }
-
     public boolean isInPosition(Position p) {
         return this.pos.equals(p);
     }

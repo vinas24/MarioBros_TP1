@@ -1,8 +1,7 @@
+//Grupo 24: HugoLozanoRuiz - SergioViñasGonzalez
 package tp1.logic;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 public class ActionList {
@@ -25,5 +24,54 @@ public class ActionList {
     //para el debugger
     public void mostrar(){
         for(Action a: lista_acciones) System.out.println(a);
+    }
+
+    public Action siguienteAction() {
+        Action a = lista_acciones.getFirst();
+        lista_acciones.removeFirst();
+        return a;
+    }
+
+
+    //Metodo feisimo, no sé como hacerlo mejor, pero funciona
+    //filtra para que las horizontales sean iguales, y maximo cuatro
+    //Escogerá quedarse con la primera accion horizontal que encuentre
+    //con las verticales hace lo mismo
+    public void limpiarActions() {
+        boolean horiz = false, vert = false;
+        int i = 0, nHor = 0, nVert = 0;
+        Action h = Action.RIGHT, v = Action.UP;
+
+        while((!horiz && !vert) || i < lista_acciones.size()) {
+            switch (lista_acciones.get(i)){
+                case LEFT,RIGHT -> {
+                    if(!horiz) {
+                        horiz = true;
+                        nHor++;
+                        h = lista_acciones.get(i);
+                    } else if(lista_acciones.get(i).isEquals(h) && nHor < 4){
+                        nHor++;
+                    } else {
+                        lista_acciones.remove(i);
+                        i--;
+
+                    }
+                }
+                case UP, DOWN -> {
+                    if(!vert) {
+                        vert = true;
+                        nVert++;
+                        v = lista_acciones.get(i);
+                    } else if(lista_acciones.get(i).isEquals(v) && nVert < 4){
+                        nVert++;
+                    } else {
+                        lista_acciones.remove(i);
+                        i--;
+
+                    }
+                }
+            }
+            i++;
+        }
     }
 }

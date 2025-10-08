@@ -26,9 +26,9 @@ public class Goomba {
         return estaMuerto;
     }
 
-    public boolean isInPosition(int col, int row) {
+    public boolean isInPosition(Position pos) {
         // TODO Auto-generated method stub
-        return this.pos.equals(col, row);
+        return this.pos.equals(pos);
     }
 
     //Los goombas tendrán mov automático
@@ -58,7 +58,10 @@ public class Goomba {
         boolean grounded = false;
         for(Land l: lands) {
             //TODO: no debería de poder acceder a los atributos de pos
-           if (l.isInPosition(inferior)) grounded = true;
+           if (l.isInPosition(inferior)){
+               grounded = true;
+               break;
+           }
         }
         return grounded;
     }
@@ -68,7 +71,10 @@ public class Goomba {
         boolean hayObstaculo = false;
         for(Land l: lands) {
             //TODO: no debería de poder acceder a los atributos de pos
-            if (l.isInPosition(p)) hayObstaculo = true;
+            if (l.isInPosition(p)) {
+                hayObstaculo = true;
+                break;
+            }
         }
         if(p.enBorde()) hayObstaculo = true;
 

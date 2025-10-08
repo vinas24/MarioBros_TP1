@@ -40,7 +40,6 @@ public class Controller {
 		}
 
 		else if(prompt[0].equalsIgnoreCase("reset")||prompt[0].equalsIgnoreCase("r")) {
-			//TODO pedirá un numero de nivel y lo cargará
 			//super rudimentario, por ahora mira si el el promt son solo nums
 			if(prompt.length == 1 || !prompt[1].matches("^[0-9]+")) view.showMessage(Messages.LEVEL_NOT_A_NUMBER_ERROR);
 			else {
@@ -51,9 +50,9 @@ public class Controller {
 			}
 		}
 		else if(prompt[0].equalsIgnoreCase("action") || prompt[0].equalsIgnoreCase("a")) {
-			//TODO pide que accion realizará mario, pueden encadenarse varias
+			//Pide las acciones que realizará mario, pueden ser varias
 			Iterator<String> i = Arrays.stream(prompt).iterator();
-			i.next(); //limpiamos el prmero;
+			i.next(); //limpiamos el primero (prompt[0]);
 			while(i.hasNext()){
 				switch (i.next().toLowerCase()){
 					case "u", "up" -> game.addAction(Action.UP);
@@ -86,7 +85,6 @@ public class Controller {
 			exit = comando(prompt);
 			// Ejecutar el comando del usuario (métod) (por ahora solo muestra
 			view.showGame();
-			game.mostarColaAcciones();
 		}
 		view.showEndMessage();
 	}

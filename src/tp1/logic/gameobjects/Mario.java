@@ -9,16 +9,15 @@ import tp1.view.Messages;
 import java.util.List;
 
 
+
 public class Mario {
 	private Position pos;
 	private boolean big;
 	private Action dir;
-	private boolean estaMuerto;
 
 	public Mario(Position pos) {
 		this.pos = pos;
 		this.dir = Action.RIGHT;
-		this.estaMuerto = false;
 	}
 
 	public String getIcon() {
@@ -32,25 +31,40 @@ public class Mario {
 		return m;
 	}
 
-	public boolean isInPosition(int col, int row) {
-		return this.pos.equals(col, row);
+	public boolean isInPosition(Position pos) {
+		return this.pos.equals(pos);
 	}
 
-	public boolean isMuerto() {
-		return this.estaMuerto;
+	public boolean isMarioBig(){
+		return this.big;
 	}
 
 	//TODO mario tendrá movimiento automatico o inducido por el jugador
 	public void update(List<Land> l, ActionList acciones) {
-		if(acciones.isVacio()){
+		if(acciones.isVacio())
 			//Mov automático
 			movAutomaticoMario(l);
-		} else {
-			//haremos la gestion de acciones
+		else {
+			acciones.limpiarActions(); //eliminamos acciones incoherentes
+			while(!acciones.isVacio()) {
+				marioAction(acciones.siguienteAction(), l);
+			}
 		}
 		//Colisiones
 
 
+	}
+
+	private void marioAction(Action a, List<Land> l) {
+        if (a == Action.DOWN) {
+			while(!isMarioGrounded(l)) moverMario(Action.DOWN);
+        } else {
+            moverMario(a);
+        }
+	}
+	private void moverMario(Action a){
+		this.pos = pos.moverPosicion(a);
+		this.dir = a;
 	}
 
 	private void movAutomaticoMario(List<Land> l){
@@ -58,32 +72,44 @@ public class Mario {
 			if(isMarioObstaculized(l,dir)){
 				dir = dir.invertirDireccion();
 			} else {
-				this.pos = pos.moverPosicion(dir);
+				moverMario(dir);
 			}
 		}
-		else this.pos = pos.moverPosicion(Action.DOWN);
+		else moverMario(Action.DOWN);
 	}
 
 	private boolean isMarioGrounded(List<Land> lands) {
 		Position inferior = this.pos.inferior();
 		boolean grounded = false;
 		for(Land l: lands) {
-			//TODO: no debería de poder acceder a los atributos de pos
-			if (l.isInPosition(inferior)) grounded = true;
+			if (l.isInPosition(inferior)) {
+				grounded = true;
+				break; //feo
+			}
 		}
 		return grounded;
 	}
 
 	private boolean isMarioObstaculized(List<Land> lands, Action dir) {
-		Position p = this.pos.moverPosicion(dir);
+		Position siguiente = this.pos.moverPosicion(dir);
+
 		boolean hayObstaculo = false;
 		for(Land l: lands) {
-			//TODO: no debería de poder acceder a los atributos de pos
-			if (l.isInPosition(p)) hayObstaculo = true;
+			if (l.isInPosition(siguiente)) hayObstaculo = true;
 		}
-		if(p.enBorde()) hayObstaculo = true;
+		if(siguiente.enBorde()) hayObstaculo = true;
 
 		return hayObstaculo;
+	}
+
+	private boolean isMarioDead() {
+		return this.pos.fueraTablero();
+	}
+
+	//public boolean interactWith(Goomba other)
+
+	public boolean interactWith(ExitDoor other) {
+		return other.isInPosition(this.pos);
 	}
 
 }

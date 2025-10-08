@@ -15,8 +15,11 @@ public class ExitDoor {
         return Messages.EXIT_DOOR;
     }
 
-    public boolean isInPosition(int col, int row) {
-        // TODO Auto-generated method stub
-        return this.pos.equals(col, row);
+    public Position getPos() {
+        return pos;
+    }
+
+    public boolean isInPosition(Position pos) {
+        return this.pos.equals(pos);
     }
 }
