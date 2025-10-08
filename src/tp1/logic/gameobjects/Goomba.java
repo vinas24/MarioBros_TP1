@@ -81,5 +81,15 @@ public class Goomba {
         return hayObstaculo;
     }
 
+    public boolean receiveInteraction(Mario other) {
+        if(other.estaCayendo()) {
+            this.estaMuerto = true; //+100p
+        }
+        else {
+            other.atacadoPorGoomba();
+        }
+        return true;
+    }
+
 
 }

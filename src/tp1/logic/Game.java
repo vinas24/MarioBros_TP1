@@ -15,13 +15,18 @@ public class Game {
 	private int nLevel;
 	private int remainingTime;
 	private int points;
+	private int lives;
 	private Mario mario;
 	private ActionList lista_acciones;
+	private boolean esVictoria;
 
 	public Game(int nLevel) {
 		// TODO Auto-generated constructor stub
 		lista_acciones = new ActionList();
 		points = 0;
+		lives = 3;
+		esVictoria = false;
+
 		if(nLevel == 0) {
 			initLevel0();
 		}
@@ -36,8 +41,7 @@ public class Game {
 	}
 
 	public boolean playerWins() {
-		// TODO Auto-generated method stub
-		return false;
+		return esVictoria;
 	}
 
 	public boolean playerLoses() {
@@ -53,7 +57,7 @@ public class Game {
 	}
 
 	public int numLives() {
-		return 3;
+		return lives;
 	}
 
 	public boolean isFinished() {
@@ -174,11 +178,24 @@ public class Game {
 	}
 
 	public void update() {
-		this.container.update(this.lista_acciones);
+		this.remainingTime--;
+		this.container.update(this.lista_acciones, this);
 	}
 
 	public void addAction(Action a){
 		lista_acciones.add(a);
 	}
 
+	public void marioExited() {
+		this.points += 10 * this.remainingTime;
+		this.esVictoria = true;
+	}
+
+//TODO hacer que funcione bien
+	public void doInteractionsFrom(Mario mario) {
+		if(mario.estaMuerto()){
+			lives --;
+			resetLevel(nLevel);
+		}
+	}
 }

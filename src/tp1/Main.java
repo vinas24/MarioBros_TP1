@@ -21,7 +21,6 @@ public class Main {
         Locale.of("es", "ES");
 		
 		try {
-			
 			int nLevel = 0;
 			if (args.length != 0) nLevel = Integer.parseInt(args[0]);
 

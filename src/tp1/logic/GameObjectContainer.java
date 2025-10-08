@@ -1,7 +1,6 @@
 //Grupo 24: HugoLozanoRuiz - SergioViñasGonzalez
 
 package tp1.logic;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,6 @@ import tp1.view.Messages;
 
 
 public class GameObjectContainer {
-    //TODO fill your code
     private List<Land> lista_land;
     private List<ExitDoor> lista_exitdoor;
     private List<Goomba> lista_goomba;
@@ -51,24 +49,6 @@ public class GameObjectContainer {
         this.mario = mario;
     }
 
-    //No sé si esto es necesario
-    /*
-    public boolean isMarioInDoor() {
-
-        int x = 0, y = 0;
-        boolean ok = false;
-        while(x<Game.DIM_X) {
-            while(y<Game.DIM_Y) {
-                if(mario.isInPosition(y, x) && exitdoor.isInPosition(y, x)) ok = true;
-                y++;
-            }
-            x++;
-        }
-        return ok;
-
-    }
-    */
-
     public String positionToIcon(int col, int row){
         Position p = new Position(row,col);
         String S = Messages.EMPTY;
@@ -92,27 +72,37 @@ public class GameObjectContainer {
         return S;
     }
 
-    public void update(ActionList acciones) {
-        //Primero update de mario,
-        //para darle prioridad en las colisiones
+    //TODO falta dejar bien las colisiones y la suma de puntos
+    public void update(ActionList acciones, Game game) {
+        //Primero update de mario para que tenga prioridad en las colisiones
         this.mario.update(lista_land, acciones);
-        //colisiones
-        checkMarioInExit();
+        //colisiones mario
+        game.doInteractionsFrom(mario);
+        //colisiones con la puerta
+        isMarioInDoor(game);
 
         //Luego todos los goombas
         for(Goomba g: lista_goomba) {
             g.update(lista_land);
         }
+        doInteractionsFrom(mario);
+
         //borramos los goombas muertos
-        //Mire en stackOverflow como, dentro del for se rompía
         lista_goomba.removeIf(Goomba::isDead);
     }
 
-    public void checkMarioInExit() {
-        for (ExitDoor e: this.lista_exitdoor)
-            mario.interactWith(e);
-
+    public void isMarioInDoor(Game game) {
+        for (ExitDoor e: this.lista_exitdoor) {
+            if (mario.interactWith(e)){
+                game.marioExited();
+            }
+        }
     }
 
 
+    public void doInteractionsFrom(Mario mario) {
+        for(Goomba goomba: lista_goomba) {
+            if(mario.interactWith(goomba)) goomba.receiveInteraction(mario);
+        }
+    }
 }

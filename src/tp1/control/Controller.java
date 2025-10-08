@@ -59,13 +59,11 @@ public class Controller {
 					case "d", "down" -> game.addAction(Action.DOWN);
 					case "l", "left" -> game.addAction(Action.LEFT);
 					case "right", "r" -> game.addAction(Action.RIGHT);
-					default -> game.addAction(Action.STOP);
+					default  -> game.addAction(Action.STOP);
 				}
 			}
-
 		}
 		else if(prompt[0].equalsIgnoreCase("update") || prompt[0].equalsIgnoreCase("u") || prompt[0].equalsIgnoreCase("")) {
-			//se llama con un action list vacio
 			game.update();
 		}
 

@@ -5,19 +5,22 @@ import tp1.logic.Action;
 import tp1.logic.ActionList;
 import tp1.logic.Position;
 import tp1.view.Messages;
-
 import java.util.List;
 
 
 
 public class Mario {
 	private Position pos;
+	//TODO hacer mario grande
 	private boolean big;
 	private Action dir;
+	private boolean muerto;
 
 	public Mario(Position pos) {
 		this.pos = pos;
 		this.dir = Action.RIGHT;
+		this.big = false;
+		this.muerto = false;
 	}
 
 	public String getIcon() {
@@ -35,8 +38,16 @@ public class Mario {
 		return this.pos.equals(pos);
 	}
 
-	public boolean isMarioBig(){
+	public boolean isMarioBig() {
 		return this.big;
+	}
+
+	public boolean estaMuerto() {
+		return this.muerto || pos.fueraTablero();
+	}
+
+	public boolean estaCayendo() {
+		return this.dir == Action.DOWN;
 	}
 
 	//TODO mario tendrá movimiento automatico o inducido por el jugador
@@ -50,32 +61,32 @@ public class Mario {
 				marioAction(acciones.siguienteAction(), l);
 			}
 		}
-		//Colisiones
-
-
+		//colisiones
 	}
 
 	private void marioAction(Action a, List<Land> l) {
         if (a == Action.DOWN) {
-			while(!isMarioGrounded(l)) moverMario(Action.DOWN);
+			while(!isMarioGrounded(l)) moverMario(l,Action.DOWN);
         } else {
-            moverMario(a);
+            moverMario(l,a);
         }
 	}
-	private void moverMario(Action a){
-		this.pos = pos.moverPosicion(a);
-		this.dir = a;
+
+	private void moverMario(List<Land> l, Action a){
+		if(!isMarioObstaculized(l,a)) {
+			this.pos = pos.moverPosicion(a);
+			this.dir = a;
+		} else{
+			this.pos = pos.moverPosicion(Action.STOP);
+		}
 	}
 
 	private void movAutomaticoMario(List<Land> l){
 		if(isMarioGrounded(l)) {
-			if(isMarioObstaculized(l,dir)){
-				dir = dir.invertirDireccion();
-			} else {
-				moverMario(dir);
-			}
+			if(dir == Action.DOWN) dir = Action.RIGHT;
+			moverMario(l,dir);
 		}
-		else moverMario(Action.DOWN);
+		else moverMario(l,Action.DOWN);
 	}
 
 	private boolean isMarioGrounded(List<Land> lands) {
@@ -102,14 +113,17 @@ public class Mario {
 		return hayObstaculo;
 	}
 
-	private boolean isMarioDead() {
-		return this.pos.fueraTablero();
-	}
-
-	//public boolean interactWith(Goomba other)
-
 	public boolean interactWith(ExitDoor other) {
 		return other.isInPosition(this.pos);
 	}
 
+	public boolean interactWith(Goomba other) {
+		return other.isInPosition(this.pos);
+	}
+
+
+	public void atacadoPorGoomba() {
+		if(big) big = false; //mas 100p
+		else muerto = true;  //mas 100p
+	}
 }

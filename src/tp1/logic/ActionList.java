@@ -39,39 +39,37 @@ public class ActionList {
     //con las verticales hace lo mismo
     public void limpiarActions() {
         boolean horiz = false, vert = false;
-        int i = 0, nHor = 0, nVert = 0;
+        int nHor = 0, nVert = 0;
         Action h = Action.RIGHT, v = Action.UP;
 
-        while((!horiz && !vert) || i < lista_acciones.size()) {
+        for (int i = 0; i < lista_acciones.size(); i++){
             switch (lista_acciones.get(i)){
                 case LEFT,RIGHT -> {
-                    if(!horiz) {
+                    if(!horiz) { //para la prim instancia de mov hor
                         horiz = true;
                         nHor++;
                         h = lista_acciones.get(i);
-                    } else if(lista_acciones.get(i).isEquals(h) && nHor < 4){
+                    } else if(lista_acciones.get(i).isEquals(h) && nHor < 4) {
                         nHor++;
                     } else {
                         lista_acciones.remove(i);
                         i--;
-
                     }
                 }
                 case UP, DOWN -> {
-                    if(!vert) {
+                    if(!vert) { //para la prim instancia de mov vert
                         vert = true;
                         nVert++;
                         v = lista_acciones.get(i);
-                    } else if(lista_acciones.get(i).isEquals(v) && nVert < 4){
+                    } else if(lista_acciones.get(i).isEquals(v) && nVert < 4) {
                         nVert++;
                     } else {
                         lista_acciones.remove(i);
                         i--;
-
                     }
                 }
+
             }
-            i++;
         }
     }
 }
