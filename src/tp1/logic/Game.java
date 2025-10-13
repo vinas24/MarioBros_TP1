@@ -1,3 +1,4 @@
+//Grupo 24: HugoLozanoRuiz - SergioViñasGonzalez
 package tp1.logic;
 
 import tp1.logic.gameobjects.Land;
@@ -10,7 +11,6 @@ public class Game {
 	public static final int DIM_X = 30;
 	public static final int DIM_Y = 15;
 
-	//TODO fill your code
 	private GameObjectContainer container;
 	private int nLevel;
 	private int remainingTime;
@@ -21,7 +21,6 @@ public class Game {
 	private boolean esVictoria;
 
 	public Game(int nLevel) {
-		// TODO Auto-generated constructor stub
 		lista_acciones = new ActionList();
 		points = 0;
 		lives = 3;
@@ -36,7 +35,6 @@ public class Game {
 	}
 
 	public String positionToString(int col, int row) {
-		// TODO Auto-generated method stub
 		return container.positionToIcon(col, row);
 	}
 
@@ -45,7 +43,7 @@ public class Game {
 	}
 
 	public boolean playerLoses() {
-		return this.remainingTime==0||numLives()==0;
+		return this.remainingTime==0||numLives()<=0;
 	}
 
 	public int remainingTime() {
@@ -53,7 +51,7 @@ public class Game {
 	}
 
 	public int points() {
-		return points;
+		return this.points;
 	}
 
 	public int numLives() {
@@ -66,7 +64,6 @@ public class Game {
 
 	@Override
 	public String toString() {
-		// TODO returns a textual representation of the object
 		return "TODO: Hola soy el game";
 	}
 
@@ -164,7 +161,6 @@ public class Game {
 
 
 	//para el comando reset
-	//TODO revisarlo
 	public void resetLevel(int nLevel) {
 		if(nLevel == 0) {
 			initLevel0();
@@ -175,6 +171,9 @@ public class Game {
 		else{
 			resetLevel(this.nLevel);
 		}
+	}
+	public void resetLevel() {
+		resetLevel(this.nLevel);
 	}
 
 	public void update() {
@@ -188,14 +187,20 @@ public class Game {
 
 	public void marioExited() {
 		this.points += 10 * this.remainingTime;
+		this.remainingTime = 0;
 		this.esVictoria = true;
 	}
 
-//TODO hacer que funcione bien
 	public void doInteractionsFrom(Mario mario) {
+		if(!mario.estaMuerto())this.container.doInteractionsFrom(mario, this);
 		if(mario.estaMuerto()){
 			lives --;
-			resetLevel(nLevel);
+			if(lives > 0)
+				resetLevel(nLevel);
 		}
+	}
+	
+	public void addPoints(int n) {
+		this.points += n;
 	}
 }

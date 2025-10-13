@@ -56,23 +56,38 @@ public class GameObjectContainer {
             if(land.isInPosition(p)) S = land.getIcon();
         }
 
+        boolean multiplesGoombas = false;
         if(S.equals(Messages.EMPTY)) {
             for(Goomba goomba: lista_goomba) {
-                if(goomba.isInPosition(p)) S = goomba.getIcon();
+                if(goomba.isInPosition(p)) {
+                    if(!multiplesGoombas) {
+                        S = goomba.getIcon();
+                        multiplesGoombas = true;
+                    } else{
+                        S = goomba.getIcon() + goomba.getIcon();
+                    }
+                }
             }
         }
 
         if(S.equals(Messages.EMPTY)) {
-            for(ExitDoor exitdoor: lista_exitdoor) {
+            for (ExitDoor exitdoor : lista_exitdoor) {
                 if (exitdoor.isInPosition(p)) S = exitdoor.getIcon();
             }
-        }
 
-        if(S.equals(Messages.EMPTY) && mario.isInPosition(p)) S = mario.getIcon();
+            if (mario.isInPosition(p)) {
+                S += mario.getIcon();
+            }
+            if (!mario.estaMuerto() && mario.isInPosition(p.inferior()) && mario.isMarioBig()) {
+                S += mario.getIcon();
+            }
+
+
+        }
+        
         return S;
     }
 
-    //TODO falta dejar bien las colisiones y la suma de puntos
     public void update(ActionList acciones, Game game) {
         //Primero update de mario para que tenga prioridad en las colisiones
         this.mario.update(lista_land, acciones);
@@ -85,7 +100,8 @@ public class GameObjectContainer {
         for(Goomba g: lista_goomba) {
             g.update(lista_land);
         }
-        doInteractionsFrom(mario);
+
+		if(!this.mario.estaMuerto())game.doInteractionsFrom(mario);
 
         //borramos los goombas muertos
         lista_goomba.removeIf(Goomba::isDead);
@@ -100,9 +116,14 @@ public class GameObjectContainer {
     }
 
 
-    public void doInteractionsFrom(Mario mario) {
+    public void doInteractionsFrom(Mario mario, Game game) {
         for(Goomba goomba: lista_goomba) {
-            if(mario.interactWith(goomba)) goomba.receiveInteraction(mario);
+            if(mario.interactWith(goomba)) {
+                if(!goomba.isDead()) {
+                    goomba.receiveInteraction(mario);
+                    game.addPoints(100); //por cada goomba con que interactue +100p
+                }
+            }
         }
     }
 }

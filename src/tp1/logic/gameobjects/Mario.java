@@ -11,25 +11,35 @@ import java.util.List;
 
 public class Mario {
 	private Position pos;
-	//TODO hacer mario grande
 	private boolean big;
 	private Action dir;
+	private Action dirHor;
 	private boolean muerto;
+	private boolean haCaido;
+	
 
 	public Mario(Position pos) {
 		this.pos = pos;
 		this.dir = Action.RIGHT;
-		this.big = false;
+		this.dirHor = Action.RIGHT;
+		this.big = true;
 		this.muerto = false;
+		this.haCaido = false;
 	}
 
 	public String getIcon() {
 		String m;
 		switch (dir)
 		{
-			case RIGHT -> m = Messages.MARIO_RIGHT;
 			case LEFT -> m = Messages.MARIO_LEFT;
-			default -> m = Messages.MARIO_STOP;
+			case STOP -> m = Messages.MARIO_STOP;
+			default -> {
+				if (dirHor == Action.RIGHT)
+					m = Messages.MARIO_RIGHT;
+				else
+					m = Messages.MARIO_LEFT;
+			}
+
 		}
 		return m;
 	}
@@ -47,11 +57,11 @@ public class Mario {
 	}
 
 	public boolean estaCayendo() {
-		return this.dir == Action.DOWN;
+		return this.dir == Action.DOWN || this.haCaido;
 	}
 
-	//TODO mario tendrá movimiento automatico o inducido por el jugador
 	public void update(List<Land> l, ActionList acciones) {
+		haCaido = false;
 		if(acciones.isVacio())
 			//Mov automático
 			movAutomaticoMario(l);
@@ -66,25 +76,36 @@ public class Mario {
 
 	private void marioAction(Action a, List<Land> l) {
         if (a == Action.DOWN) {
-			while(!isMarioGrounded(l)) moverMario(l,Action.DOWN);
+			this.haCaido = true;
+			if(isMarioGrounded(l)) this.dir = Action.STOP;
+			else {
+				while (!isMarioGrounded(l) && !pos.fueraTablero()) moverMario(l, Action.DOWN);
+			}
         } else {
             moverMario(l,a);
         }
+		if (a == Action.RIGHT || a == Action.LEFT) dirHor = a;
 	}
 
 	private void moverMario(List<Land> l, Action a){
 		if(!isMarioObstaculized(l,a)) {
 			this.pos = pos.moverPosicion(a);
 			this.dir = a;
+			if(this.pos.fueraTablero()) this.muerto = true;
 		} else{
 			this.pos = pos.moverPosicion(Action.STOP);
+			this.dir = a.invertirDireccion();
 		}
 	}
 
 	private void movAutomaticoMario(List<Land> l){
 		if(isMarioGrounded(l)) {
-			if(dir == Action.DOWN) dir = Action.RIGHT;
-			moverMario(l,dir);
+			if(estaCayendo()) {
+				dir = Action.RIGHT;
+				dirHor = Action.RIGHT;
+			}
+			if(isMarioObstaculized(l, dir)) dir = dir.invertirDireccion();
+			else moverMario(l,dir);
 		}
 		else moverMario(l,Action.DOWN);
 	}
@@ -106,7 +127,10 @@ public class Mario {
 
 		boolean hayObstaculo = false;
 		for(Land l: lands) {
-			if (l.isInPosition(siguiente)) hayObstaculo = true;
+			if(isMarioBig()) {
+				if (l.isInPosition(siguiente) || l.isInPosition(siguiente.superior())) hayObstaculo = true;
+			}
+			else if (l.isInPosition(siguiente)) hayObstaculo = true;
 		}
 		if(siguiente.enBorde()) hayObstaculo = true;
 
@@ -114,16 +138,26 @@ public class Mario {
 	}
 
 	public boolean interactWith(ExitDoor other) {
-		return other.isInPosition(this.pos);
+		boolean interact = other.isInPosition(this.pos);
+		if(isMarioBig() && !interact) {
+			interact = other.isInPosition(this.pos.superior());
+		}
+		return interact;
 	}
 
 	public boolean interactWith(Goomba other) {
-		return other.isInPosition(this.pos);
+		boolean interact = other.isInPosition(this.pos);
+		if(isMarioBig() && !interact) {
+			interact = other.isInPosition(this.pos.superior());
+		}
+		return interact;
 	}
 
 
 	public void atacadoPorGoomba() {
-		if(big) big = false; //mas 100p
-		else muerto = true;  //mas 100p
+		if(big) big = false;
+		else muerto = true;
 	}
+	
+	
 }

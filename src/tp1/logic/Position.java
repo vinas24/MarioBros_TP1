@@ -1,3 +1,4 @@
+//Grupo 24: HugoLozanoRuiz - SergioViñasGonzalez
 package tp1.logic;
 
 
@@ -6,13 +7,13 @@ import static tp1.logic.Game.DIM_Y;
 
 /**
  *
- * TODO: Immutable class to encapsulate and manipulate positions in the game board
+ * 
  *
  */
 public class Position {
 
-	private int col;
-	private int row;
+	private final int col;
+	private final int row;
 
 	public Position(int row, int col) {
 		this.col = col;
@@ -33,9 +34,13 @@ public class Position {
 	public Position inferior(){
 		return new Position(this.row+1, this.col);
 	}
+	
+	public Position superior(){
+		return new Position(this.row-1, this.col);
+	}
 
 	public boolean fueraTablero(){
-		return this.row >= DIM_Y;
+		return this.row >= DIM_Y || this.col >= DIM_X;
 	}
 
 	public boolean enBorde() {

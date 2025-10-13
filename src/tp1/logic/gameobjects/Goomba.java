@@ -5,6 +5,7 @@ import tp1.logic.Action;
 import tp1.logic.Position;
 import tp1.view.Messages;
 import java.util.List;
+import tp1.logic.Game;
 
 public class Goomba {
     private Position pos;
@@ -27,7 +28,6 @@ public class Goomba {
     }
 
     public boolean isInPosition(Position pos) {
-        // TODO Auto-generated method stub
         return this.pos.equals(pos);
     }
 
@@ -38,13 +38,13 @@ public class Goomba {
     // Si sale del tablero por abajo, muere.
     // Cuando un Goomba muere, debe ser eliminado de la lista de Goombas.
     public void update(List<Land> l) {
-        //TODO: Hacer que muera y se elimine si se va fuera del tablero
         if(isGoombaGrounded(l)) {
             if(isGoombaObstaculized(l,dir)){
                 dir = dir.invertirDireccion();
+            } else {
+                //El Goomba se mueve en la nueva dir.
+                this.pos = pos.moverPosicion(dir);
             }
-            //El Goomba se mueve en la nueva dir.
-            this.pos = pos.moverPosicion(dir);
         }
         else this.pos = pos.moverPosicion(Action.DOWN);
 
@@ -57,7 +57,6 @@ public class Goomba {
         Position inferior = this.pos.inferior();
         boolean grounded = false;
         for(Land l: lands) {
-            //TODO: no debería de poder acceder a los atributos de pos
            if (l.isInPosition(inferior)){
                grounded = true;
                break;
@@ -70,7 +69,6 @@ public class Goomba {
         Position p = this.pos.moverPosicion(dir);
         boolean hayObstaculo = false;
         for(Land l: lands) {
-            //TODO: no debería de poder acceder a los atributos de pos
             if (l.isInPosition(p)) {
                 hayObstaculo = true;
                 break;
@@ -82,10 +80,10 @@ public class Goomba {
     }
 
     public boolean receiveInteraction(Mario other) {
-        if(other.estaCayendo()) {
-            this.estaMuerto = true; //+100p
-        }
-        else {
+        if (other.estaCayendo()) {
+            this.estaMuerto = true;
+        } else {
+            if (other.isMarioBig()) this.estaMuerto = true;
             other.atacadoPorGoomba();
         }
         return true;

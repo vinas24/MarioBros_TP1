@@ -1,3 +1,4 @@
+//Grupo 24: HugoLozanoRuiz - SergioViñasGonzalez
 package tp1.control;
 
 import tp1.logic.Action;
@@ -36,36 +37,54 @@ public class Controller {
 
 		else if(prompt[0].equalsIgnoreCase("help")||prompt[0].equalsIgnoreCase("h")) {
 			//Muestra una guia de los posibles comandos
-			view.showMessage(Messages.HELP);
+			if(prompt.length != 1)  view.showError(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);
+			else view.showMessage(Messages.HELP);
 		}
 
 		else if(prompt[0].equalsIgnoreCase("reset")||prompt[0].equalsIgnoreCase("r")) {
 			//super rudimentario, por ahora mira si el el promt son solo nums
-			if(prompt.length == 1 || !prompt[1].matches("^[0-9]+")) view.showMessage(Messages.LEVEL_NOT_A_NUMBER_ERROR);
+			if (prompt.length == 1) {
+				game.resetLevel();
+				view.showGame();
+
+			}
+			else if( !prompt[1].matches("^[0-9]+")) view.showMessage(Messages.LEVEL_NOT_A_NUMBER_ERROR.formatted(prompt[1]));
 			else {
 				//Si el lvl es un nivel, cargará ese lvl
 				int lvl = Integer.parseInt(prompt[1]);
 				// No sé como cargar un nuevo juego sobre el actual, claramente esto esta mal
 				game.resetLevel(lvl);
+				view.showGame();
+
 			}
 		}
 		else if(prompt[0].equalsIgnoreCase("action") || prompt[0].equalsIgnoreCase("a")) {
-			//Pide las acciones que realizará mario, pueden ser varias
-			Iterator<String> i = Arrays.stream(prompt).iterator();
-			i.next(); //limpiamos el primero (prompt[0]);
-			while(i.hasNext()){
-				switch (i.next().toLowerCase()){
-					case "u", "up" -> game.addAction(Action.UP);
-					case "d", "down" -> game.addAction(Action.DOWN);
-					case "l", "left" -> game.addAction(Action.LEFT);
-					case "right", "r" -> game.addAction(Action.RIGHT);
-					default  -> game.addAction(Action.STOP);
+			if(prompt.length == 1) view.showError(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);
+			else {
+				//Pide las acciones que realizará mario, pueden ser varias
+				Iterator<String> i = Arrays.stream(prompt).iterator();
+				i.next(); //limpiamos el primero (prompt[0]);
+				while (i.hasNext()) {
+					String s = i.next();
+					switch (s.toLowerCase()) {
+						case "u", "up" -> game.addAction(Action.UP);
+						case "d", "down" -> game.addAction(Action.DOWN);
+						case "l", "left" -> game.addAction(Action.LEFT);
+						case "right", "r" -> game.addAction(Action.RIGHT);
+						case "stop", "s" -> game.addAction(Action.STOP);
+						default -> view.showError(Messages.UNKNOWN_ACTION.formatted(s));
+					}
 				}
+				game.update();
+				view.showGame();
 			}
 		}
 		else if(prompt[0].equalsIgnoreCase("update") || prompt[0].equalsIgnoreCase("u") || prompt[0].equalsIgnoreCase("")) {
 			game.update();
+			view.showGame();
 		}
+		
+		else view.showError(Messages.UNKNOWN_COMMAND.formatted(prompt[0]));
 
 		return exit;
 	}
@@ -76,13 +95,11 @@ public class Controller {
 		boolean exit = false;
 		view.showWelcome();
 		view.showGame();
-		//TODO fill your code: The main loop that displays the game, asks the user for input, and executes the action.
 		while (!game.isFinished() && !exit) {
 			// Pedir una línea al usuario (getPromt)
 			prompt = view.getPrompt();
 			exit = comando(prompt);
 			// Ejecutar el comando del usuario (métod) (por ahora solo muestra
-			view.showGame();
 		}
 		view.showEndMessage();
 	}
