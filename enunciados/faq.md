@@ -28,7 +28,7 @@ Sí, en una misma posición pueden cohexistir varios objetos. En concreto podrí
 
 Ej. En la fila 12, columna 10 se encuentran dos Goombas y en la fila 12 columna 29 se encuentra Mario junto con la puerta de salida.
 
-![Mapa con varios objetos en la misma posición](imgsFAQ/mapa2Objetos.png)
+![Mapa con varios objetos en la misma posición](../../../../../../../../../Downloads/2526_MarioBros-practica2_plantilla/2526_MarioBros-practica2_plantilla/enunciados/imgsFAQ/mapa2Objetos.png)
 
 ### ¿Se borran los Goombas cuando mueren?
 
