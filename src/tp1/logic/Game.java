@@ -19,12 +19,14 @@ public class Game {
 	private Mario mario;
 	private ActionList lista_acciones;
 	private boolean esVictoria;
+    private boolean exited;
 
 	public Game(int nLevel) {
 		lista_acciones = new ActionList();
 		points = 0;
 		lives = 3;
 		esVictoria = false;
+        exited = false;
 
 		if(nLevel == 0) {
 			initLevel0();
@@ -46,6 +48,8 @@ public class Game {
 		return this.remainingTime==0||numLives()<=0;
 	}
 
+    public boolean playerExited() { return  exited;}
+
 	public int remainingTime() {
 		return this.remainingTime;
 	}
@@ -59,7 +63,7 @@ public class Game {
 	}
 
 	public boolean isFinished() {
-		return playerLoses() || playerWins();
+		return playerLoses() || playerWins() || playerExited();
 	}
 
 	@Override
@@ -172,9 +176,6 @@ public class Game {
 			resetLevel(this.nLevel);
 		}
 	}
-	public void resetLevel() {
-		resetLevel(this.nLevel);
-	}
 
 	public void update() {
 		this.remainingTime--;
@@ -206,5 +207,7 @@ public class Game {
 
 
     //TODO: Por ahora no hace nada
-    public void exit(){}
+    public void exit(){
+        this.exited = true;
+    }
 }

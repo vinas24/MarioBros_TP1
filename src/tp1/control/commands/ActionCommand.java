@@ -1,3 +1,4 @@
+//Grupo 24: HugoLozanoRuiz - SergioViñasGonzalez
 package tp1.control.commands;
 
 import tp1.logic.Action;
@@ -6,6 +7,7 @@ import tp1.view.GameView;
 import tp1.view.Messages;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class ActionCommand extends AbstractCommand {
@@ -39,16 +41,22 @@ public class ActionCommand extends AbstractCommand {
         if (this.parametrosIncorrectos) { view.showError(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);}
         else {
             if (this.acciones != null) {
-                for (String a : this.acciones) {
-                    switch (a.toLowerCase()) {
+                //Pide las acciones que realizará mario, pueden ser varias
+                Iterator<String> i = acciones.iterator();
+                i.next(); //limpiamos el primero (nombre del comando)
+                while (i.hasNext()) {
+                    String s = i.next();
+                    switch (s.toLowerCase()) {
                         case "u", "up" -> game.addAction(Action.UP);
                         case "d", "down" -> game.addAction(Action.DOWN);
                         case "l", "left" -> game.addAction(Action.LEFT);
                         case "right", "r" -> game.addAction(Action.RIGHT);
                         case "stop", "s" -> game.addAction(Action.STOP);
-                        default -> view.showError(Messages.UNKNOWN_ACTION.formatted(a));
+                        default -> view.showError(Messages.UNKNOWN_ACTION.formatted(s));
                     }
                 }
+                game.update();
+                view.showGame();
             }
         }
     }
@@ -59,8 +67,6 @@ public class ActionCommand extends AbstractCommand {
             if (commandWords.length == 1) return new ActionCommand(true);
             //Añadimos las acciones
             List <String> listaAcciones =Arrays.stream(commandWords).toList();
-            listaAcciones.removeFirst();
-            //Elimimamos el primero que es el nombre del comando y no una acción
             return new ActionCommand(listaAcciones);
         }
         return null;

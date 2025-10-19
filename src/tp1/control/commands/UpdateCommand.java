@@ -1,3 +1,4 @@
+//Grupo 24: HugoLozanoRuiz - SergioViñasGonzalez
 package tp1.control.commands;
 
 import tp1.logic.Game;
