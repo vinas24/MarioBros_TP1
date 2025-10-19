@@ -203,4 +203,8 @@ public class Game {
 	public void addPoints(int n) {
 		this.points += n;
 	}
+
+
+    //TODO: Por ahora no hace nada
+    public void exit(){}
 }

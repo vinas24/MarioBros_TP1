@@ -8,17 +8,20 @@ import tp1.view.Messages;
 public class CommandGenerator {
 
 	private static final List<Command> availableCommands = Arrays.asList(
-			//TODO fill with your code
-			// new UpdateCommand(),
+            new ActionCommand(),
+            new UpdateCommand(),
+            new ResetCommand(),
 			new HelpCommand(),
 			new ExitCommand()
 	);
 
-	public static Command parse(String[] commandWords) {		
+	public static Command parse(String[] commandWords) {
+        Command com = null;
 		for (Command c: availableCommands) {
-			//TODO fill with your code
+			com = c.parse(commandWords);
+            if(com != null) break; //si alguno parsea correctamente, se devueve ese
 		}
-		return null;
+		return com;
 	}
 		
 	public static String commandHelp() {
@@ -27,7 +30,7 @@ public class CommandGenerator {
 		commands.append(Messages.HELP_AVAILABLE_COMMANDS).append(Messages.LINE_SEPARATOR);
 		
 		for (Command c: availableCommands) {
-			//TODO fill with your code
+			commands.append(c.helpText());
 		}
 		
 		return commands.toString();

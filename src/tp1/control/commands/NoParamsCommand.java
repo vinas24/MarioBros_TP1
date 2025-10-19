@@ -6,9 +6,11 @@ public abstract class NoParamsCommand extends AbstractCommand {
 		super(name, shortcut, details, help);
 	}
 
+    //TODO: no sé como hacerlo con lo del update si el comando esta vacio
+    //Devuelve null o el tipo de comando sin parametros que corresponde
 	@Override
 	public Command parse(String[] commandWords) {
-		//First TODO fill with your code
-		return null;
+         if (matchCommandName(commandWords[0])) return this;
+         else return null;
 	}
 }
