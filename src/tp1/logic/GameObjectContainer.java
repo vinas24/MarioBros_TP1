@@ -4,14 +4,14 @@ package tp1.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import tp1.logic.gameobjects.ExitDoor;
-import tp1.logic.gameobjects.Goomba;
-import tp1.logic.gameobjects.Land;
-import tp1.logic.gameobjects.Mario;
+import tp1.logic.gameobjects.*;
 import tp1.view.Messages;
 
-
+//TODO cambiar para que solo sea con gameObjects
 public class GameObjectContainer {
+    //NUEVO
+    private List<GameObject> gameObjects;
+    //ANTIGUO
     private List<Land> lista_land;
     private List<ExitDoor> lista_exitdoor;
     private List<Goomba> lista_goomba;
@@ -19,6 +19,9 @@ public class GameObjectContainer {
 
 
     public GameObjectContainer() {
+        //NUEVO
+        gameObjects = new ArrayList<>();
+        //ANTIGUO
         this.lista_land = new ArrayList<>();
         this.lista_exitdoor = new ArrayList<>();
         this.lista_goomba = new ArrayList<>();
@@ -47,6 +50,13 @@ public class GameObjectContainer {
 
     public void add(Mario mario) {
         this.mario = mario;
+    }
+
+
+    //TODO:CAMBIAR EL RESTO
+    //Solo un metodo add generico
+    public void add(GameObject obj){
+        this.gameObjects.add(obj);
     }
 
     public String positionToIcon(int col, int row){
@@ -125,5 +135,13 @@ public class GameObjectContainer {
                 }
             }
         }
+    }
+
+    public boolean landInPosition(Position pos) {
+        for(Land land: lista_land) {
+            if(land.isInPosition(pos)) {return true;}
+
+        }
+        return false;
     }
 }

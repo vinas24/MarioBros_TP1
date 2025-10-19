@@ -17,7 +17,7 @@ public class Game {
 	private int points;
 	private int lives;
 	private Mario mario;
-	private ActionList lista_acciones;
+	private final ActionList lista_acciones;
 	private boolean esVictoria;
     private boolean exited;
 
@@ -79,22 +79,22 @@ public class Game {
 		// 1. Mapa
 		container = new GameObjectContainer();
 		for(int col = 0; col < 15; col++) {
-			container.add(new Land(new Position(13,col)));
-			container.add(new Land(new Position(14,col)));
+			container.add(new Land(new Position(13,col),this));
+			container.add(new Land(new Position(14,col),this));
 		}
 
-		container.add(new Land(new Position(Game.DIM_Y-3,9)));
-		container.add(new Land(new Position(Game.DIM_Y-3,12)));
+		container.add(new Land(new Position(Game.DIM_Y-3,9),this));
+		container.add(new Land(new Position(Game.DIM_Y-3,12),this));
 		for(int col = 17; col < Game.DIM_X; col++) {
-			container.add(new Land(new Position(Game.DIM_Y-2, col)));
-			container.add(new Land(new Position(Game.DIM_Y-1, col)));
+			container.add(new Land(new Position(Game.DIM_Y-2, col),this));
+			container.add(new Land(new Position(Game.DIM_Y-1, col),this));
 		}
 
-		container.add(new Land(new Position(9,2)));
-		container.add(new Land(new Position(9,5)));
-		container.add(new Land(new Position(9,6)));
-		container.add(new Land(new Position(9,7)));
-		container.add(new Land(new Position(5,6)));
+		container.add(new Land(new Position(9,2),this));
+		container.add(new Land(new Position(9,5),this));
+		container.add(new Land(new Position(9,6),this));
+		container.add(new Land(new Position(9,7),this));
+		container.add(new Land(new Position(5,6),this));
 
 		// Salto final
 		int tamX = 8, tamY= 8;
@@ -102,11 +102,11 @@ public class Game {
 
 		for(int col = 0; col < tamX; col++) {
 			for (int fila = 0; fila < col+1; fila++) {
-				container.add(new Land(new Position(posIniY- fila, posIniX+ col)));
+				container.add(new Land(new Position(posIniY- fila, posIniX+ col),this));
 			}
 		}
 
-		container.add(new ExitDoor(new Position(Game.DIM_Y-3, Game.DIM_X-1)));
+		container.add(new ExitDoor(new Position(Game.DIM_Y-3, Game.DIM_X-1),this));
 
 		// 3. Personajes
 		this.mario = new Mario(new Position(Game.DIM_Y-3, 0));
@@ -121,22 +121,22 @@ public class Game {
 		// 1. Mapa
 		container = new GameObjectContainer();
 		for(int col = 0; col < 15; col++) {
-			container.add(new Land(new Position(13,col)));
-			container.add(new Land(new Position(14,col)));
+			container.add(new Land(new Position(13,col),this));
+			container.add(new Land(new Position(14,col),this));
 		}
 
-		container.add(new Land(new Position(Game.DIM_Y-3,9)));
-		container.add(new Land(new Position(Game.DIM_Y-3,12)));
+		container.add(new Land(new Position(Game.DIM_Y-3,9),this));
+		container.add(new Land(new Position(Game.DIM_Y-3,12),this));
 		for(int col = 17; col < Game.DIM_X; col++) {
-			container.add(new Land(new Position(Game.DIM_Y-2, col)));
-			container.add(new Land(new Position(Game.DIM_Y-1, col)));
+			container.add(new Land(new Position(Game.DIM_Y-2, col),this));
+			container.add(new Land(new Position(Game.DIM_Y-1, col),this));
 		}
 
-		container.add(new Land(new Position(9,2)));
-		container.add(new Land(new Position(9,5)));
-		container.add(new Land(new Position(9,6)));
-		container.add(new Land(new Position(9,7)));
-		container.add(new Land(new Position(5,6)));
+		container.add(new Land(new Position(9,2),this));
+		container.add(new Land(new Position(9,5),this));
+		container.add(new Land(new Position(9,6),this));
+		container.add(new Land(new Position(9,7),this));
+		container.add(new Land(new Position(5,6),this));
 
 		// Salto final
 		int tamX = 8, tamY= 8;
@@ -144,11 +144,11 @@ public class Game {
 
 		for(int col = 0; col < tamX; col++) {
 			for (int fila = 0; fila < col+1; fila++) {
-				container.add(new Land(new Position(posIniY- fila, posIniX+ col)));
+				container.add(new Land(new Position(posIniY- fila, posIniX+ col),this));
 			}
 		}
 
-		container.add(new ExitDoor(new Position(Game.DIM_Y-3, Game.DIM_X-1)));
+		container.add(new ExitDoor(new Position(Game.DIM_Y-3, Game.DIM_X-1),this));
 
 		// 3. Personajes
 		this.mario = new Mario(new Position(Game.DIM_Y-3, 0));
@@ -209,5 +209,9 @@ public class Game {
     //TODO: Por ahora no hace nada
     public void exit(){
         this.exited = true;
+    }
+
+    public boolean landInPos(Position pos) {
+        return container.landInPosition(pos);
     }
 }
