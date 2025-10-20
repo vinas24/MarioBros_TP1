@@ -28,8 +28,20 @@ public class ResetCommand extends AbstractCommand {
     @Override
     public void execute(Game game, GameView view) {
         if(this.nivelNoNum == null) {
-            game.resetLevel(this.numLevel);
-            view.showGame();
+            if(this.numLevel == -1) {
+                //llama al reset del nivel actual
+                game.resetLevel();
+                view.showGame();
+            }
+            else {
+                //Mierdón de if
+                if(this.numLevel == 1 || this.numLevel == 0) {
+                    // llama al reset del nivel en cuestion
+                    game.resetLevel(this.numLevel);
+                    view.showGame();
+                }
+                else view.showError(Messages.INVALID_LEVEL_NUMBER);
+            }
         } else {
             view.showMessage(Messages.LEVEL_NOT_A_NUMBER_ERROR.formatted(nivelNoNum));
         }

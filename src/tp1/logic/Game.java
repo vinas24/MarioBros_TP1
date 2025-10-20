@@ -177,6 +177,15 @@ public class Game {
 		}
 	}
 
+    public void resetLevel() {
+        if(this.nLevel == 0) {
+            initLevel0();
+        }
+        else if(this.nLevel == 1) {
+            initLevel1();
+        }
+    }
+
 	public void update() {
 		this.remainingTime--;
 		this.container.update(this.lista_acciones, this);

@@ -15,46 +15,43 @@ public class ActionCommand extends AbstractCommand {
     private static final String SHORTCUT = Messages.COMMAND_ACTION_SHORTCUT;
     private static final String DETAILS = Messages.COMMAND_ACTION_DETAILS;
     private static final String HELP = Messages.COMMAND_ACTION_HELP;
-    private final boolean parametrosIncorrectos;
     private final List<String> acciones;
 
     public ActionCommand() {
         super(NAME, SHORTCUT, DETAILS, HELP);
-        this.parametrosIncorrectos = false;
         this.acciones = null;
     }
 
     public ActionCommand(List<String> acciones) {
         super(NAME, SHORTCUT, DETAILS, HELP);
-        this.parametrosIncorrectos = false;
         this.acciones = acciones;
-    }
-
-    public ActionCommand(boolean parametrosIncorrectos) {
-        super(NAME, SHORTCUT, DETAILS, HELP);
-        this.parametrosIncorrectos = parametrosIncorrectos;
-        this.acciones = null;
     }
 
     @Override
     public void execute(Game game, GameView view) {
-        if (this.parametrosIncorrectos) { view.showError(Messages.COMMAND_INCORRECT_PARAMETER_NUMBER);}
-        else {
-            if (this.acciones != null) {
-                //Pide las acciones que realizará mario, pueden ser varias
-                Iterator<String> i = acciones.iterator();
-                i.next(); //limpiamos el primero (nombre del comando)
-                while (i.hasNext()) {
-                    String s = i.next();
-                    switch (s.toLowerCase()) {
-                        case "u", "up" -> game.addAction(Action.UP);
-                        case "d", "down" -> game.addAction(Action.DOWN);
-                        case "l", "left" -> game.addAction(Action.LEFT);
-                        case "right", "r" -> game.addAction(Action.RIGHT);
-                        case "stop", "s" -> game.addAction(Action.STOP);
-                        default -> view.showError(Messages.UNKNOWN_ACTION.formatted(s));
+        if (this.acciones != null) {
+            //Pide las acciones que realizará mario, pueden ser varias
+            Iterator<String> i = acciones.iterator();
+            boolean actionIncorrecta = false;
+            i.next(); //limpiamos el primero (nombre del comando)
+            while (i.hasNext()) {
+                String s = i.next();
+                switch (s.toLowerCase()) {
+                    case "u", "up" -> game.addAction(Action.UP);
+                    case "d", "down" -> game.addAction(Action.DOWN);
+                    case "l", "left" -> game.addAction(Action.LEFT);
+                    case "right", "r" -> game.addAction(Action.RIGHT);
+                    case "stop", "s" -> game.addAction(Action.STOP);
+                    default -> {
+                        /*
+                        NO hace falta ahora aparentemente ????
+                        view.showError(Messages.UNKNOWN_ACTION.formatted(s));
+                        actionIncorrecta = true;
+                         */
                     }
                 }
+            }
+            if (!actionIncorrecta) {
                 game.update();
                 view.showGame();
             }
@@ -63,8 +60,7 @@ public class ActionCommand extends AbstractCommand {
 
     @Override
     public Command parse(String[] commandWords) {
-        if(matchCommandName(commandWords[0])) {
-            if (commandWords.length == 1) return new ActionCommand(true);
+        if(matchCommandName(commandWords[0]) && commandWords.length != 1) {
             //Añadimos las acciones
             List <String> listaAcciones =Arrays.stream(commandWords).toList();
             return new ActionCommand(listaAcciones);
