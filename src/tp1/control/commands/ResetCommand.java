@@ -2,6 +2,7 @@
 package tp1.control.commands;
 
 import tp1.logic.Game;
+import tp1.logic.GameModel;
 import tp1.view.GameView;
 import tp1.view.Messages;
 
@@ -26,18 +27,18 @@ public class ResetCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(Game game, GameView view) {
+    public void execute(GameModel game, GameView view) {
         if(this.nivelNoNum == null) {
             if(this.numLevel == -1) {
                 //llama al reset del nivel actual
-                game.resetLevel();
+                game.reset();
                 view.showGame();
             }
             else {
                 //Mierdón de if
                 if(this.numLevel == 1 || this.numLevel == 0) {
                     // llama al reset del nivel en cuestion
-                    game.resetLevel(this.numLevel);
+                    game.reset(this.numLevel);
                     view.showGame();
                 }
                 else view.showError(Messages.INVALID_LEVEL_NUMBER);

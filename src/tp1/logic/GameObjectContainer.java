@@ -139,8 +139,14 @@ public class GameObjectContainer {
 
     public boolean landInPosition(Position pos) {
         for(Land land: lista_land) {
-            if(land.isInPosition(pos)) {return true;}
+            if(land.isInPosition(pos))return true;
+        }
+        return false;
+    }
 
+    public boolean isSolid(Position pos) {
+        for(GameObject obj: this.gameObjects) {
+            if(obj.isSolid()) return true;
         }
         return false;
     }

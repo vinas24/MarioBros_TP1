@@ -3,6 +3,7 @@ package tp1.control.commands;
 
 import tp1.logic.Action;
 import tp1.logic.Game;
+import tp1.logic.GameModel;
 import tp1.view.GameView;
 import tp1.view.Messages;
 
@@ -28,7 +29,7 @@ public class ActionCommand extends AbstractCommand {
     }
 
     @Override
-    public void execute(Game game, GameView view) {
+    public void execute(GameModel game, GameView view) {
         if (this.acciones != null) {
             //Pide las acciones que realizará mario, pueden ser varias
             Iterator<String> i = acciones.iterator();
