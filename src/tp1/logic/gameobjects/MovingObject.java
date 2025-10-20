@@ -23,16 +23,17 @@ public abstract class MovingObject extends GameObject {
                 this.pos = pos.moverPosicion(dir);
             }
         }
+        //TODO mover hacia abajo
     }
 
     private boolean isGrounded() {
         Position inferior = this.pos.inferior();
-        return game.landInPos(inferior);
+        return game.isSolid(inferior);
     }
 
     private boolean isObstaculized(Action dir) {
         Position siguente = this.pos.moverPosicion(dir);
-        return game.landInPos(siguente) || siguente.enBorde();
+        return game.isSolid(siguente) || siguente.enBorde();
     }
 
 }

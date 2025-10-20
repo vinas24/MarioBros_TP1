@@ -10,7 +10,6 @@ public class ExitDoor  extends  GameObject{
 
     public ExitDoor(Position pos, Game game) {
         super(game, pos);
-
     }
 
     //Las puertas no tienen Update

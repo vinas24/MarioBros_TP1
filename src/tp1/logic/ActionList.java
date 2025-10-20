@@ -49,7 +49,7 @@ public class ActionList {
                         horiz = true;
                         nHor++;
                         h = lista_acciones.get(i);
-                    } else if(lista_acciones.get(i).isEquals(h) && nHor < 4) {
+                    } else if(lista_acciones.get(i).equals(h) && nHor < 4) {
                         nHor++;
                     } else {
                         lista_acciones.remove(i);
@@ -61,7 +61,7 @@ public class ActionList {
                         vert = true;
                         nVert++;
                         v = lista_acciones.get(i);
-                    } else if(lista_acciones.get(i).isEquals(v) && nVert < 4) {
+                    } else if(lista_acciones.get(i).equals(v) && nVert < 4) {
                         nVert++;
                     } else {
                         lista_acciones.remove(i);

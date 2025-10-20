@@ -8,8 +8,8 @@ package tp1.logic;
 public enum Action {
 	LEFT(-1,0), RIGHT(1,0), DOWN(0,1), UP(0,-1), STOP(0,0);
 	
-	private  int x;
-	private  int y;
+	private final int x;
+	private final int y;
 	
 	private Action(int x, int y) {
 		this.x=x;
@@ -26,7 +26,7 @@ public enum Action {
 
 	public Action invertirDireccion() {
 		Action inv;
-		switch (this){
+		switch (this) {
 			case UP -> inv = DOWN;
 			case DOWN -> inv = UP;
 			case LEFT -> inv = RIGHT;
@@ -36,7 +36,5 @@ public enum Action {
 		return inv;
 	}
 
-	public boolean isEquals(Action a) {
-		return this.x == a.x && this.y == a.y;
-	}
+
 }

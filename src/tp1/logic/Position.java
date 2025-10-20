@@ -5,11 +5,7 @@ package tp1.logic;
 import static tp1.logic.Game.DIM_X;
 import static tp1.logic.Game.DIM_Y;
 
-/**
- *
- * 
- *
- */
+
 public class Position {
 
 	private final int col;

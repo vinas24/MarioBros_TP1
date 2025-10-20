@@ -38,14 +38,6 @@ public class Game implements GameModel, GameStatus, GameWorld {
         return "TODO: Hola soy el game";
     }
 
-    public int points() {
-        return this.points;
-    }
-
-    public int numLives() {
-        return lives;
-    }
-
     private void initLevel0() {
         this.nLevel = 0;
         this.remainingTime = 100;
@@ -140,6 +132,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
     //
     //Metodos GameStatus
     //
+
 	public String positionToString(int col, int row) {
 		return container.positionToIcon(col, row);
 	}
@@ -158,9 +151,18 @@ public class Game implements GameModel, GameStatus, GameWorld {
 		return this.remainingTime;
 	}
 
+    public int points() {
+        return this.points;
+    }
+
+    public int numLives() {
+        return lives;
+    }
+
     //
     //Metodos de GAMEMODEL
     //
+
     public boolean isFinished() {
         return playerLoses() || playerWins() || playerExited();
     }
@@ -197,6 +199,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
     }
 
     //
+    //Métodos de GameWorld
     //
 
 	public void addAction(Action a){

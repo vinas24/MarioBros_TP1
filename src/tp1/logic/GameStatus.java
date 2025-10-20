@@ -7,4 +7,6 @@ public interface GameStatus {
     public boolean playerWins();
     public boolean playerLoses();
     public boolean playerExited();
+    public int points();
+    public int numLives();
 }
