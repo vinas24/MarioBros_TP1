@@ -20,9 +20,9 @@ public class Goomba extends MovingObject{
         this.movAutomatico();
     }
 
-    //Se cambiara con el double-dispatch
+    //Se cambiará con el double-dispatch
     public boolean receiveInteraction(Mario other) {
-        if (other.estaCayendo()) {
+        if (other.isFalling()) {
             this.dead();
         } else {
             if (other.isMarioBig()) this.dead();

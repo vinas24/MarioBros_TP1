@@ -75,7 +75,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
         container.add(new ExitDoor(new Position(Game.DIM_Y-3, Game.DIM_X-1),this));
 
         // 3. Personajes
-        this.mario = new Mario(new Position(Game.DIM_Y-3, 0));
+        this.mario = new Mario(new Position(Game.DIM_Y-3, 0), this);
         this.container.add(this.mario);
         this.container.add(new Goomba(new Position(0, 19), this));
     }
@@ -117,7 +117,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
         container.add(new ExitDoor(new Position(Game.DIM_Y-3, Game.DIM_X-1),this));
 
         // 3. Personajes
-        this.mario = new Mario(new Position(Game.DIM_Y-3, 0));
+        this.mario = new Mario(new Position(Game.DIM_Y-3, 0), this);
         this.container.add(this.mario);
 
         container.add(new Goomba(new Position(0, 19), this));
@@ -191,7 +191,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
 
     public void update() {
         this.remainingTime--;
-        this.container.update(this.lista_acciones, this);
+        this.container.update(this);
     }
 
     public void exit(){
@@ -201,7 +201,6 @@ public class Game implements GameModel, GameStatus, GameWorld {
     //
     //Métodos de GameWorld
     //
-
     public void addAction(Action a){
         lista_acciones.add(a);
     }
@@ -212,8 +211,8 @@ public class Game implements GameModel, GameStatus, GameWorld {
         this.esVictoria = true;
     }
     public void doInteractionsFrom(Mario mario) {
-        if(!mario.estaMuerto()) this.container.doInteractionsFrom(mario, this);
-        if(mario.estaMuerto()){
+        if(mario.isAlive()) this.container.doInteractionsFrom(mario, this);//he cambiado !mario.estaMuerto
+        if(!mario.isAlive()){//he cambiado mario.estaMuerto
             lives --;
             if(lives > 0)
                 reset(nLevel);
@@ -232,4 +231,15 @@ public class Game implements GameModel, GameStatus, GameWorld {
     public boolean landInPos(Position pos) {
         return container.landInPosition(pos);
     }
+
+    public void limpiarAcciones() {
+        this.lista_acciones.limpiarActions();
+    }
+    public boolean accionesIsVacio() {
+        return this.lista_acciones.isVacio();
+    }
+    public Action siguenteAction() {
+        return this.lista_acciones.siguienteAction();
+    }
+
 }

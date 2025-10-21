@@ -25,7 +25,7 @@ public class GameObjectContainer {
         this.lista_land = new ArrayList<>();
         this.lista_exitdoor = new ArrayList<>();
         this.lista_goomba = new ArrayList<>();
-        this.mario = new Mario(null);
+        this.mario = new Mario(null, null);
     }
 
     public GameObjectContainer(List<Goomba> lista_goomba) {
@@ -88,7 +88,7 @@ public class GameObjectContainer {
             if (mario.isInPosition(p)) {
                 S += mario.getIcon();
             }
-            if (!mario.estaMuerto() && mario.isInPosition(p.inferior()) && mario.isMarioBig()) {
+            if (mario.isAlive() && mario.isInPosition(p.inferior()) && mario.isMarioBig()) {//he cambiado !mario.estaMuerto
                 S += mario.getIcon();
             }
 
@@ -98,9 +98,9 @@ public class GameObjectContainer {
         return S;
     }
 
-    public void update(ActionList acciones, GameWorld game) {
+    public void update(GameWorld game) {
         //Primero update de mario para que tenga prioridad en las colisiones
-        this.mario.update(lista_land, acciones);
+        this.mario.update();
         //colisiones mario
         game.doInteractionsFrom(mario);
         //colisiones con la puerta
@@ -108,17 +108,16 @@ public class GameObjectContainer {
 
         //Luego todos los goombas
         for(Goomba g: lista_goomba) {
-//            g.update(lista_land);
             g.update(); //ya no hace falta lista_land
         }
 
-        if(!this.mario.estaMuerto())game.doInteractionsFrom(mario);
+        if(this.mario.isAlive()) game.doInteractionsFrom(mario);
 
         //borramos los goombas muertos
         lista_goomba.removeIf(g -> !g.isAlive());
     }
 
-    public void isMarioInDoor(GameWorld game) {
+    private void isMarioInDoor(GameWorld game) {
         for (ExitDoor e: this.lista_exitdoor) {
             if (mario.interactWith(e)){
                 game.marioExited();
@@ -126,11 +125,10 @@ public class GameObjectContainer {
         }
     }
 
-
-    public void doInteractionsFrom(Mario mario, Game game) {
+    protected void doInteractionsFrom(Mario mario, Game game) {
         for(Goomba goomba: lista_goomba) {
             if(mario.interactWith(goomba)) {
-                if(goomba.isAlive()) { //!goomba.isDead cambiado
+                if(goomba.isAlive()) {
                     goomba.receiveInteraction(mario);
                     game.addPoints(100); //por cada goomba con que interactue +100p
                 }
@@ -138,16 +136,17 @@ public class GameObjectContainer {
         }
     }
 
-    public boolean landInPosition(Position pos) {
+    protected boolean landInPosition(Position pos) {
         for(Land land: lista_land) {
             if(land.isInPosition(pos))return true;
         }
         return false;
     }
 
-    public boolean isSolid(Position pos) {
+    //Busca la si hay un obj solido en la posicion dada
+    protected boolean isSolid(Position pos) {
         for(GameObject obj: this.gameObjects) {
-            if(obj.isSolid()) return true;
+            if(obj.isInPosition(pos) && obj.isSolid()) return true;
         }
         return false;
     }

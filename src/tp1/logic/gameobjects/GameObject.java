@@ -38,7 +38,6 @@ public abstract class GameObject {
 	
 	public abstract String getIcon();
 
-	// Not mandatory but recommended
 	protected void move(Action dir) {
 		this.pos = pos.moverPosicion(dir);
 	}
@@ -47,13 +46,24 @@ public abstract class GameObject {
         return  this.pos.inferior();
     }
 
+    protected Position posSuperior() {
+        return  this.pos.superior();
+    }
+
     protected Position posSiguente(Action dir) {
         return  this.pos.moverPosicion(dir);
+    }
+
+    //TODO: Hugo dale el visto bueno a esto sjsjs
+    protected Position posSuperiorSiguente(Action dir) {
+        return  this.pos.superior().moverPosicion(dir);
     }
 
     protected boolean fueraDelTablero() {
         return this.pos.fueraTablero();
     }
 
-
+    protected boolean compartePosition(GameObject other) {
+        return other.isInPosition(this.pos);
+    }
 }
