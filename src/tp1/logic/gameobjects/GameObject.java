@@ -2,16 +2,16 @@
 package tp1.logic.gameobjects;
 
 import tp1.logic.Action;
-import tp1.logic.Game;
+import tp1.logic.GameWorld;
 import tp1.logic.Position;
 
 public abstract class GameObject {
 
-	protected Position pos; // TODO If you can, make it private.
+	private Position pos;
 	private boolean isAlive;
-	protected Game game; 
+	protected GameWorld game;
 	
-	public GameObject(Game game, Position pos) {
+	public GameObject(GameWorld game, Position pos) {
 		this.isAlive = true;
 		this.pos = pos;
 		this.game = game;
@@ -42,4 +42,18 @@ public abstract class GameObject {
 	protected void move(Action dir) {
 		this.pos = pos.moverPosicion(dir);
 	}
+
+    protected Position posInferior() {
+        return  this.pos.inferior();
+    }
+
+    protected Position posSiguente(Action dir) {
+        return  this.pos.moverPosicion(dir);
+    }
+
+    protected boolean fueraDelTablero() {
+        return this.pos.fueraTablero();
+    }
+
+
 }

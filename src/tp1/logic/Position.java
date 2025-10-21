@@ -20,8 +20,7 @@ public class Position {
 		return this.col == col && this.row == row;
 	}
 
-	public boolean equals(Position otro){return this.equals(otro.col, otro.row); }
-
+	public boolean equals(Position otro) {return this.equals(otro.col, otro.row); }
 
 	public Position moverPosicion(Action a){
 		return new Position(this.row + a.getY(), this.col + a.getX());

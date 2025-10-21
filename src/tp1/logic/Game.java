@@ -5,33 +5,33 @@ import tp1.logic.gameobjects.*;
 
 public class Game implements GameModel, GameStatus, GameWorld {
 
-	public static final int DIM_X = 30;
-	public static final int DIM_Y = 15;
+    public static final int DIM_X = 30;
+    public static final int DIM_Y = 15;
 
-	private GameObjectContainer container;
-	private int nLevel;
-	private int remainingTime;
-	private int points;
-	private int lives;
-	private Mario mario;
-	private final ActionList lista_acciones;
-	private boolean esVictoria;
+    private GameObjectContainer container;
+    private int nLevel;
+    private int remainingTime;
+    private int points;
+    private int lives;
+    private Mario mario;
+    private final ActionList lista_acciones;
+    private boolean esVictoria;
     private boolean exited;
 
-	public Game(int nLevel) {
-		lista_acciones = new ActionList();
-		points = 0;
-		lives = 3;
-		esVictoria = false;
+    public Game(int nLevel) {
+        lista_acciones = new ActionList();
+        points = 0;
+        lives = 3;
+        esVictoria = false;
         exited = false;
 
-		if(nLevel == 0) {
-			initLevel0();
-		}
-		if(nLevel == 1) {
-			initLevel1();
-		}
-	}
+        if(nLevel == 0) {
+            initLevel0();
+        }
+        if(nLevel == 1) {
+            initLevel1();
+        }
+    }
 
     @Override
     public String toString() {
@@ -77,7 +77,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
         // 3. Personajes
         this.mario = new Mario(new Position(Game.DIM_Y-3, 0));
         this.container.add(this.mario);
-        this.container.add(new Goomba(new Position(0, 19)));
+        this.container.add(new Goomba(new Position(0, 19), this));
     }
 
     private void initLevel1() {
@@ -120,36 +120,36 @@ public class Game implements GameModel, GameStatus, GameWorld {
         this.mario = new Mario(new Position(Game.DIM_Y-3, 0));
         this.container.add(this.mario);
 
-        container.add(new Goomba(new Position(0, 19)));
-        container.add(new Goomba(new Position(4, 6)));
-        container.add(new Goomba(new Position(12, 6)));
-        container.add(new Goomba(new Position(12, 8)));
-        container.add(new Goomba(new Position(12, 11)));
-        container.add(new Goomba(new Position(12, 14)));
-        container.add(new Goomba(new Position(10, 10)));
+        container.add(new Goomba(new Position(0, 19), this));
+        container.add(new Goomba(new Position(4, 6), this));
+        container.add(new Goomba(new Position(12, 6), this));
+        container.add(new Goomba(new Position(12, 8), this));
+        container.add(new Goomba(new Position(12, 11), this));
+        container.add(new Goomba(new Position(12, 14), this));
+        container.add(new Goomba(new Position(10, 10), this));
     }
 
     //
     //Metodos GameStatus
     //
 
-	public String positionToString(int col, int row) {
-		return container.positionToIcon(col, row);
-	}
+    public String positionToString(int col, int row) {
+        return container.positionToIcon(col, row);
+    }
 
-	public boolean playerWins() {
-		return esVictoria;
-	}
+    public boolean playerWins() {
+        return esVictoria;
+    }
 
-	public boolean playerLoses() {
-		return this.remainingTime==0||numLives()<=0;
-	}
+    public boolean playerLoses() {
+        return this.remainingTime==0||numLives()<=0;
+    }
 
     public boolean playerExited() { return  exited;}
 
-	public int remainingTime() {
-		return this.remainingTime;
-	}
+    public int remainingTime() {
+        return this.remainingTime;
+    }
 
     public int points() {
         return this.points;
@@ -167,18 +167,18 @@ public class Game implements GameModel, GameStatus, GameWorld {
         return playerLoses() || playerWins() || playerExited();
     }
 
-	public void reset(int nLevel) {
-		if(nLevel == 0) {
-			initLevel0();
-		}
+    public void reset(int nLevel) {
+        if(nLevel == 0) {
+            initLevel0();
+        }
 
-		else if(nLevel == 1) {
-			initLevel1();
-		}
-		else{
-			reset(this.nLevel);
-		}
-	}
+        else if(nLevel == 1) {
+            initLevel1();
+        }
+        else{
+            reset(this.nLevel);
+        }
+    }
 
     public void reset() {
         if(this.nLevel == 0) {
@@ -189,10 +189,10 @@ public class Game implements GameModel, GameStatus, GameWorld {
         }
     }
 
-	public void update() {
-		this.remainingTime--;
-		this.container.update(this.lista_acciones, this);
-	}
+    public void update() {
+        this.remainingTime--;
+        this.container.update(this.lista_acciones, this);
+    }
 
     public void exit(){
         this.exited = true;
@@ -202,23 +202,23 @@ public class Game implements GameModel, GameStatus, GameWorld {
     //Métodos de GameWorld
     //
 
-	public void addAction(Action a){
-		lista_acciones.add(a);
-	}
+    public void addAction(Action a){
+        lista_acciones.add(a);
+    }
 
-	public void marioExited() {
-		this.points += 10 * this.remainingTime;
-		this.remainingTime = 0;
-		this.esVictoria = true;
-	}
-	public void doInteractionsFrom(Mario mario) {
-		if(!mario.estaMuerto()) this.container.doInteractionsFrom(mario, this);
-		if(mario.estaMuerto()){
-			lives --;
-			if(lives > 0)
-				reset(nLevel);
-		}
-	}
+    public void marioExited() {
+        this.addPoints(10 * this.remainingTime);
+        this.remainingTime = 0;
+        this.esVictoria = true;
+    }
+    public void doInteractionsFrom(Mario mario) {
+        if(!mario.estaMuerto()) this.container.doInteractionsFrom(mario, this);
+        if(mario.estaMuerto()){
+            lives --;
+            if(lives > 0)
+                reset(nLevel);
+        }
+    }
 
     @Override
     public boolean isSolid(Position pos) {
@@ -226,8 +226,8 @@ public class Game implements GameModel, GameStatus, GameWorld {
     }
 
     public void addPoints(int n) {
-		this.points += n;
-	}
+        this.points += n;
+    }
 
     public boolean landInPos(Position pos) {
         return container.landInPosition(pos);

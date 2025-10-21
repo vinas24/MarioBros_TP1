@@ -94,11 +94,11 @@ public class GameObjectContainer {
 
 
         }
-        
+
         return S;
     }
 
-    public void update(ActionList acciones, Game game) {
+    public void update(ActionList acciones, GameWorld game) {
         //Primero update de mario para que tenga prioridad en las colisiones
         this.mario.update(lista_land, acciones);
         //colisiones mario
@@ -108,16 +108,17 @@ public class GameObjectContainer {
 
         //Luego todos los goombas
         for(Goomba g: lista_goomba) {
-            g.update(lista_land);
+//            g.update(lista_land);
+            g.update(); //ya no hace falta lista_land
         }
 
-		if(!this.mario.estaMuerto())game.doInteractionsFrom(mario);
+        if(!this.mario.estaMuerto())game.doInteractionsFrom(mario);
 
         //borramos los goombas muertos
-        lista_goomba.removeIf(Goomba::isDead);
+        lista_goomba.removeIf(g -> !g.isAlive());
     }
 
-    public void isMarioInDoor(Game game) {
+    public void isMarioInDoor(GameWorld game) {
         for (ExitDoor e: this.lista_exitdoor) {
             if (mario.interactWith(e)){
                 game.marioExited();
@@ -129,7 +130,7 @@ public class GameObjectContainer {
     public void doInteractionsFrom(Mario mario, Game game) {
         for(Goomba goomba: lista_goomba) {
             if(mario.interactWith(goomba)) {
-                if(!goomba.isDead()) {
+                if(goomba.isAlive()) { //!goomba.isDead cambiado
                     goomba.receiveInteraction(mario);
                     game.addPoints(100); //por cada goomba con que interactue +100p
                 }
