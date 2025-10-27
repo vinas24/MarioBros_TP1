@@ -31,7 +31,7 @@ public class ResetCommand extends AbstractCommand {
         if(this.nivelNoNum == null) {
             if(this.numLevel == -1) {
                 //llama al reset del nivel actual
-                game.reset();
+                game.reset(-1);
                 view.showGame();
             }
             else {
@@ -66,14 +66,4 @@ public class ResetCommand extends AbstractCommand {
         return c;
     }
 
-	@Override
-	public String toString() {
-		return "ResetCommand [numLevel=" + numLevel + ", nivelNoNum=" + nivelNoNum + ", getName()=" + getName()
-				+ ", getShortcut()=" + getShortcut() + ", getDetails()=" + getDetails() + ", getHelp()=" + getHelp()
-				+ ", helpText()=" + helpText() + ", hashCode()=" + hashCode()
-				+ ", toString()=" + super.toString() + "]";
-	}
-    
-    
-    
 }

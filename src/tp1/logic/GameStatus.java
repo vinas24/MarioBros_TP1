@@ -6,7 +6,6 @@ public interface GameStatus {
     public String positionToString(int col, int row);
     public boolean playerWins();
     public boolean playerLoses();
-    public boolean playerExited();
     public int points();
     public int numLives();
 }

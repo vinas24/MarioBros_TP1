@@ -81,46 +81,8 @@ public class Game implements GameModel, GameStatus, GameWorld {
     }
 
     private void initLevel1() {
+        initLevel0();
         this.nLevel = 1;
-        this.remainingTime = 100;
-
-        // 1. Mapa
-        container = new GameObjectContainer();
-        for(int col = 0; col < 15; col++) {
-            container.add(new Land(new Position(13,col),this));
-            container.add(new Land(new Position(14,col),this));
-        }
-
-        container.add(new Land(new Position(Game.DIM_Y-3,9),this));
-        container.add(new Land(new Position(Game.DIM_Y-3,12),this));
-        for(int col = 17; col < Game.DIM_X; col++) {
-            container.add(new Land(new Position(Game.DIM_Y-2, col),this));
-            container.add(new Land(new Position(Game.DIM_Y-1, col),this));
-        }
-
-        container.add(new Land(new Position(9,2),this));
-        container.add(new Land(new Position(9,5),this));
-        container.add(new Land(new Position(9,6),this));
-        container.add(new Land(new Position(9,7),this));
-        container.add(new Land(new Position(5,6),this));
-
-        // Salto final
-        int tamX = 8, tamY= 8;
-        int posIniX = Game.DIM_X-3-tamX, posIniY = Game.DIM_Y-3;
-
-        for(int col = 0; col < tamX; col++) {
-            for (int fila = 0; fila < col+1; fila++) {
-                container.add(new Land(new Position(posIniY- fila, posIniX+ col),this));
-            }
-        }
-
-        container.add(new ExitDoor(new Position(Game.DIM_Y-3, Game.DIM_X-1),this));
-
-        // 3. Personajes
-        this.mario = new Mario(new Position(Game.DIM_Y-3, 0), this);
-        this.container.add(this.mario);
-
-        container.add(new Goomba(new Position(0, 19), this));
         container.add(new Goomba(new Position(4, 6), this));
         container.add(new Goomba(new Position(12, 6), this));
         container.add(new Goomba(new Position(12, 8), this));
@@ -134,7 +96,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
     //
 
     public String positionToString(int col, int row) {
-        return container.positionToIcon(col, row);
+        return container.positionToIcon(new Position(row, col));
     }
 
     public boolean playerWins() {
@@ -144,8 +106,6 @@ public class Game implements GameModel, GameStatus, GameWorld {
     public boolean playerLoses() {
         return this.remainingTime==0||numLives()<=0;
     }
-
-    public boolean playerExited() { return  exited;}
 
     public int remainingTime() {
         return this.remainingTime;
@@ -164,7 +124,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
     //
 
     public boolean isFinished() {
-        return playerLoses() || playerWins() || playerExited();
+        return exited || playerLoses() || playerWins() ;
     }
 
     public void reset(int nLevel) {
@@ -177,15 +137,6 @@ public class Game implements GameModel, GameStatus, GameWorld {
         }
         else{
             reset(this.nLevel);
-        }
-    }
-
-    public void reset() {
-        if(this.nLevel == 0) {
-            initLevel0();
-        }
-        else if(this.nLevel == 1) {
-            initLevel1();
         }
     }
 
@@ -210,9 +161,10 @@ public class Game implements GameModel, GameStatus, GameWorld {
         this.remainingTime = 0;
         this.esVictoria = true;
     }
+
     public void doInteractionsFrom(Mario mario) {
-        if(mario.isAlive()) this.container.doInteractionsFrom(mario, this);//he cambiado !mario.estaMuerto
-        if(!mario.isAlive()){//he cambiado mario.estaMuerto
+        if(mario.isAlive()) this.container.doInteractionsFrom(mario, this);
+        if(!mario.isAlive()){
             lives --;
             if(lives > 0)
                 reset(nLevel);
@@ -235,9 +187,11 @@ public class Game implements GameModel, GameStatus, GameWorld {
     public void limpiarAcciones() {
         this.lista_acciones.limpiarActions();
     }
+
     public boolean accionesIsVacio() {
         return this.lista_acciones.isVacio();
     }
+
     public Action siguenteAction() {
         return this.lista_acciones.siguienteAction();
     }

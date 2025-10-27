@@ -75,7 +75,7 @@ public class Mario extends MovingObject{
     public boolean interactWith(GameObject other) {
         boolean interact = compartePosition(other);
         if(isMarioBig() && !interact) {
-            interact = other.isInPosition(posSuperior());
+            interact = other.isInPosition(posSiguente(Action.UP));
         }
         return interact;
     }
@@ -90,7 +90,7 @@ public class Mario extends MovingObject{
     private boolean isObstaculizedMario(Action a){
         boolean obstaculizado = isObstaculized(posSiguente(a));
         if(isMarioBig() && !obstaculizado) {
-            obstaculizado = isObstaculized(posSuperiorSiguente(a));
+            obstaculizado = isObstaculized(posSiguente(Action.UP).moverPosicion(a)); //TF
         }
         return obstaculizado;
     }

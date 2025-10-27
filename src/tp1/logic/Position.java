@@ -2,6 +2,8 @@
 package tp1.logic;
 
 
+import java.util.Objects;
+
 import static tp1.logic.Game.DIM_X;
 import static tp1.logic.Game.DIM_Y;
 
@@ -16,22 +18,21 @@ public class Position {
 		this.row = row;
 	}
 
-	public boolean equals(int col, int row) {
-		return this.col == col && this.row == row;
-	}
+    //TODO: Cambiar a un único return si el profe nos llora
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Position position = (Position) o;
+        return col == position.col && row == position.row;
+    }
 
-	public boolean equals(Position otro) {return this.equals(otro.col, otro.row); }
+    @Override
+    public int hashCode() {
+        return Objects.hash(col, row);
+    }
 
-	public Position moverPosicion(Action a){
+    public Position moverPosicion(Action a){
 		return new Position(this.row + a.getY(), this.col + a.getX());
-	}
-
-	public Position inferior(){
-		return new Position(this.row+1, this.col);
-	}
-	
-	public Position superior(){
-		return new Position(this.row-1, this.col);
 	}
 
 	public boolean fueraTablero(){

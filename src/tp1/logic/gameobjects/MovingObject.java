@@ -35,7 +35,7 @@ public abstract class MovingObject extends GameObject {
 
     //cuando implementemos la lista de GameObject usaremos isSolid
     protected boolean isGrounded() {
-        Position inferior = this.posInferior();
+        Position inferior = this.posSiguente(Action.DOWN);
         return game.landInPos(inferior);
     }
     //cuando implementemos la lista de GameObject usaremos isSolid

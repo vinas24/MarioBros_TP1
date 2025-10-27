@@ -59,8 +59,7 @@ public class GameObjectContainer {
         this.gameObjects.add(obj);
     }
 
-    public String positionToIcon(int col, int row){
-        Position p = new Position(row,col);
+    public String positionToIcon(Position p){
         String S = Messages.EMPTY;
         for(Land land: lista_land) {
             if(land.isInPosition(p)) S = land.getIcon();
@@ -88,7 +87,7 @@ public class GameObjectContainer {
             if (mario.isInPosition(p)) {
                 S += mario.getIcon();
             }
-            if (mario.isAlive() && mario.isInPosition(p.inferior()) && mario.isMarioBig()) {//he cambiado !mario.estaMuerto
+            if (mario.isAlive() && mario.isInPosition(p.moverPosicion(Action.DOWN)) && mario.isMarioBig()) {//he cambiado !mario.estaMuerto
                 S += mario.getIcon();
             }
 
@@ -104,7 +103,6 @@ public class GameObjectContainer {
         //colisiones mario
         game.doInteractionsFrom(mario);
         //colisiones con la puerta
-        isMarioInDoor(game);
 
         //Luego todos los goombas
         for(Goomba g: lista_goomba) {
@@ -117,15 +115,16 @@ public class GameObjectContainer {
         lista_goomba.removeIf(g -> !g.isAlive());
     }
 
-    private void isMarioInDoor(GameWorld game) {
+
+    //TODO: Ya lo cambiaremos con el double dispatch
+    protected void doInteractionsFrom(Mario mario, Game game) {
+        //interaccion con puerta
         for (ExitDoor e: this.lista_exitdoor) {
             if (mario.interactWith(e)){
                 game.marioExited();
             }
         }
-    }
-
-    protected void doInteractionsFrom(Mario mario, Game game) {
+        //interaccion con goomba
         for(Goomba goomba: lista_goomba) {
             if(mario.interactWith(goomba)) {
                 if(goomba.isAlive()) {

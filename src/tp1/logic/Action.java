@@ -36,5 +36,16 @@ public enum Action {
 		return inv;
 	}
 
+    public static Action parse(String name){
+        return switch (name.toLowerCase()) {
+            case "u", "up" -> UP;
+            case "d", "down" -> DOWN;
+            case "l", "left" -> LEFT;
+            case "right", "r" -> RIGHT;
+            case "stop", "s" -> STOP;
+            default -> null;
+        };
+    }
+
 
 }

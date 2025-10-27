@@ -42,21 +42,8 @@ public abstract class GameObject {
 		this.pos = pos.moverPosicion(dir);
 	}
 
-    protected Position posInferior() {
-        return  this.pos.inferior();
-    }
-
-    protected Position posSuperior() {
-        return  this.pos.superior();
-    }
-
     protected Position posSiguente(Action dir) {
         return  this.pos.moverPosicion(dir);
-    }
-
-    //TODO: Hugo dale el visto bueno a esto sjsjs
-    protected Position posSuperiorSiguente(Action dir) {
-        return  this.pos.superior().moverPosicion(dir);
     }
 
     protected boolean fueraDelTablero() {
