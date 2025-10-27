@@ -50,18 +50,30 @@ public class ResetCommand extends AbstractCommand {
 
     @Override
     public Command parse(String[] commandWords) {
+    	Command c = null;
         if(matchCommandName(commandWords[0])) {
             //Si no hay parámetros
             if(commandWords.length == 1) {
-                return new ResetCommand();
+                c = new ResetCommand();
             } else if (commandWords.length == 2) {
                 //si el parametro es un numero
                 if(commandWords[1].matches("^[0-9]+"))
-                    return new ResetCommand(Integer.parseInt(commandWords[1]), null);
+                    c = new ResetCommand(Integer.parseInt(commandWords[1]), null);
                 //si no es un num, nivelNoNum será la entrada, para el mensaje de error
-                else return new ResetCommand(0, commandWords[1]);
+                else c = new ResetCommand(0, commandWords[1]);
             }
         }
-        return null;
+        return c;
     }
+
+	@Override
+	public String toString() {
+		return "ResetCommand [numLevel=" + numLevel + ", nivelNoNum=" + nivelNoNum + ", getName()=" + getName()
+				+ ", getShortcut()=" + getShortcut() + ", getDetails()=" + getDetails() + ", getHelp()=" + getHelp()
+				+ ", helpText()=" + helpText() + ", hashCode()=" + hashCode()
+				+ ", toString()=" + super.toString() + "]";
+	}
+    
+    
+    
 }

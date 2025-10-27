@@ -61,11 +61,23 @@ public class ActionCommand extends AbstractCommand {
 
     @Override
     public Command parse(String[] commandWords) {
+    	Command c = null;
         if(matchCommandName(commandWords[0]) && commandWords.length != 1) {
             //Añadimos las acciones
             List <String> listaAcciones =Arrays.stream(commandWords).toList();
-            return new ActionCommand(listaAcciones);
+            c = new ActionCommand(listaAcciones);
         }
-        return null;
+        return c;
     }
+
+	@Override
+	public String toString() {
+		return "ActionCommand [acciones=" + acciones + ", getName()=" + getName() + ", getShortcut()=" + getShortcut()
+				+ ", getDetails()=" + getDetails() + ", getHelp()=" + getHelp() + ", helpText()=" + helpText()
+				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
+				+ "]";
+	}
+    
+    
+    
 }

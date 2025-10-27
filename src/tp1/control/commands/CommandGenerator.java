@@ -9,7 +9,7 @@ import tp1.view.Messages;
 public class CommandGenerator {
 
 	private static final List<Command> availableCommands = Arrays.asList(
-            new ActionCommand(),
+            new ActionCommand(null), //modificado a usar el constructor con param
             new UpdateCommand(),
             new ResetCommand(),
 			new HelpCommand(),
@@ -18,10 +18,15 @@ public class CommandGenerator {
 
 	public static Command parse(String[] commandWords) {
         Command com = null;
-		for (Command c: availableCommands) {
-			com = c.parse(commandWords);
-            if(com != null) break; //si alguno parsea correctamente, se devueve ese
-		}
+        int i = 0;
+        boolean parseCorrecto = false;
+        //comprueba el parse de cada comando, hasta encontrar uno que no devuelva null
+        while(i < availableCommands.size() && !parseCorrecto) {
+            com = availableCommands.get(i).parse(commandWords);
+            if(com != null) parseCorrecto = true;
+            i++;
+        }
+
 		return com;
 	}
 		

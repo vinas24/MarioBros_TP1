@@ -3,6 +3,7 @@ package tp1.view;
 import static tp1.util.MyStringUtils.repeat;
 
 import tp1.logic.Game;
+import tp1.logic.GameStatus;
 import tp1.util.MyStringUtils;
 
 public class ConsoleColorsView extends ConsoleView {
@@ -20,7 +21,7 @@ public class ConsoleColorsView extends ConsoleView {
 	private static final String EXIT_CELL = COLOR_EXIT_BACKGROUND + EXIT_TEXT + ConsoleColorsAnsiCodes.ANSI_RESET;
 	private static final String EXIT_PLUS = COLOR_EXIT_BACKGROUND + "%s" + ConsoleColorsAnsiCodes.ANSI_RESET;
 
-	public ConsoleColorsView(Game game) {
+	public ConsoleColorsView(GameStatus game) {
 		super(game);
 	}
 	

@@ -20,4 +20,14 @@ public class HelpCommand extends NoParamsCommand {
 		view.showMessage(CommandGenerator.commandHelp());
 	}
 
+	@Override
+	public String toString() {
+		return "HelpCommand [getName()=" + getName() + ", getShortcut()=" + getShortcut() + ", getDetails()="
+				+ getDetails() + ", getHelp()=" + getHelp() + ", helpText()=" + helpText() 
+				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+	}
+	
+	
+	
+
 }

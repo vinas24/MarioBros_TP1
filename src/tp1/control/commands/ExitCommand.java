@@ -22,4 +22,12 @@ public class ExitCommand extends NoParamsCommand{
 	    game.exit(); 	
 	}
 
+	@Override
+	public String toString() {
+		return "ExitCommand [getName()=" + getName() + ", getShortcut()=" + getShortcut() + ", getDetails()="
+				+ getDetails() + ", getHelp()=" + getHelp() + ", helpText()=" + helpText() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+	}
+
+	
+	
 }
