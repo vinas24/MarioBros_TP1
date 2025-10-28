@@ -6,13 +6,17 @@ import tp1.logic.GameWorld;
 import tp1.logic.Position;
 
 public abstract class MovingObject extends GameObject {
-    //TODO Cambiarlo a private
-    protected Action dir;
+    private Action dir;
     private boolean isFalling;
 
     public MovingObject(GameWorld game, Position pos, Action dir) {
         super(game, pos);
         this.dir = dir;
+        this.isFalling = false;
+    }
+
+    public void update() {
+        this.movAutomatico();
     }
 
     protected void movAutomatico() {
@@ -38,6 +42,7 @@ public abstract class MovingObject extends GameObject {
         Position inferior = this.posSiguente(Action.DOWN);
         return game.landInPos(inferior);
     }
+
     //cuando implementemos la lista de GameObject usaremos isSolid
     protected boolean isObstaculized(Position pos) {
         return game.landInPos(pos) || pos.enBorde();
@@ -51,9 +56,24 @@ public abstract class MovingObject extends GameObject {
         this.isFalling = true;
     }
 
+    protected int dirActual() {
+         return switch (dir)
+        {
+            case LEFT -> -1;
+            case STOP -> 0;
+            default -> 1;
 
+        };
+    }
 
+    protected void cambiarDir(Action a) {
+        this.dir = a;
+    }
 
-
-
+    @Override
+    public String toString() {
+        return  "dir=" + dir +
+                ", isFalling=" + isFalling +
+                super.toString();
+    }
 }

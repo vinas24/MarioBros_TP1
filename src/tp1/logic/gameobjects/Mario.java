@@ -15,20 +15,17 @@ public class Mario extends MovingObject{
     public Mario(Position pos, GameWorld game) {
         super(game, pos, Action.RIGHT);
         this.big = true;
-        this.dir = Action.RIGHT;
         this.lista_acciones = new ActionList();
     }
 
     public String getIcon() {
-        String m;
-        switch (dir)
+        return switch (dirActual())
         {
-            case LEFT -> m = Messages.MARIO_LEFT;
-            case STOP -> m = Messages.MARIO_STOP;
-            default -> m = Messages.MARIO_RIGHT;
+            case -1 -> Messages.MARIO_LEFT;
+            case 0 -> Messages.MARIO_STOP;
+            default -> Messages.MARIO_RIGHT;
 
-        }
-        return m;
+        };
     }
 
     public boolean isMarioBig() {
@@ -38,8 +35,7 @@ public class Mario extends MovingObject{
     @Override
     public void update() {
         if(lista_acciones.isVacio()) {
-            //Mov automático
-            movAutomatico();
+            super.update();
         } else {
             while(!lista_acciones.isVacio()) {
                 marioAction(lista_acciones.siguienteAction());
@@ -50,7 +46,7 @@ public class Mario extends MovingObject{
     private void marioAction(Action a) {
         if (a == Action.DOWN) {
             if(isGrounded())  {
-                this.dir = Action.STOP;
+                cambiarDir(Action.STOP);
             }
             else {
                 fall(); //mario cae
@@ -66,11 +62,11 @@ public class Mario extends MovingObject{
             move(a);
             //Cambiamos la direccion en la que mira
             if (a == Action.LEFT || a == Action.RIGHT || a == Action.STOP) {
-                dir = a;
+                cambiarDir(a);
             }
             if(fueraDelTablero()) this.dead();
         } else{
-            this.dir = a.invertirDireccion();
+            cambiarDir(a.invertirDireccion());
         }
     }
 
@@ -102,4 +98,12 @@ public class Mario extends MovingObject{
         this.lista_acciones.add(a);
     }
 
+
+    @Override
+    public String toString() {
+        return "Mario{" +
+                "big=" + big +
+                ", lista_acciones=" + lista_acciones +
+                super.toString() + "}";
+    }
 }

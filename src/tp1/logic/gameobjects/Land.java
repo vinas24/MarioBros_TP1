@@ -1,14 +1,14 @@
 //Grupo 24: HugoLozanoRuiz - SergioViñasGonzalez
 
 package tp1.logic.gameobjects;
-import tp1.logic.Game;
+import tp1.logic.GameWorld;
 import tp1.logic.Position;
 import tp1.view.Messages;
 
 public class Land extends GameObject{
 
 
-    public Land(Position pos, Game game) {
+    public Land(Position pos, GameWorld game) {
         super(game,pos);
     }
 
@@ -23,5 +23,10 @@ public class Land extends GameObject{
     @Override
     public boolean isSolid() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Land{ " + super.toString() + "}";
     }
 }

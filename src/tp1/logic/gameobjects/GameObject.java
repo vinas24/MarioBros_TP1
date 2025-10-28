@@ -53,4 +53,11 @@ public abstract class GameObject {
     protected boolean compartePosition(GameObject other) {
         return other.isInPosition(this.pos);
     }
+
+    @Override
+    public String toString() {
+        return  "pos=" + pos +
+                ", isAlive=" + isAlive +
+                ", game=" + game;
+    }
 }

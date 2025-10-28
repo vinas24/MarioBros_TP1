@@ -1,14 +1,14 @@
 //Grupo 24: HugoLozanoRuiz - SergioViñasGonzalez
 
 package tp1.logic.gameobjects;
-import tp1.logic.Game;
+import tp1.logic.GameWorld;
 import tp1.logic.Position;
 import tp1.view.Messages;
 
 public class ExitDoor  extends  GameObject{
 
 
-    public ExitDoor(Position pos, Game game) {
+    public ExitDoor(Position pos, GameWorld game) {
         super(game, pos);
     }
 
@@ -21,4 +21,8 @@ public class ExitDoor  extends  GameObject{
     }
 
 
+    @Override
+    public String toString() {
+        return "ExitDoor{ " + super.toString() + "}";
+    }
 }

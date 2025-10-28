@@ -16,10 +16,6 @@ public class Goomba extends MovingObject{
         return Messages.GOOMBA;
     }
 
-    public void update() {
-        this.movAutomatico();
-    }
-
     //Se cambiará con el double-dispatch
     public boolean receiveInteraction(Mario other) {
         if (other.isFalling()) {
@@ -31,5 +27,8 @@ public class Goomba extends MovingObject{
         return true;
     }
 
-
+    @Override
+    public String toString() {
+        return "Goomba{ " + super.toString() + "}";
+    }
 }
