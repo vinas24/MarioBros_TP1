@@ -17,6 +17,14 @@ public class Mario extends MovingObject{
         this.big = true;
         this.lista_acciones = new ActionList();
     }
+    //IDK
+    @Override
+    public boolean isInPosition(Position p) {
+        boolean inPos = super.isInPosition(p);
+        if(big) inPos = inPos | super.isInPosition(p.moverPosicion(Action.DOWN));
+        return inPos;
+    }
+
 
     public String getIcon() {
         return switch (dirActual())
@@ -41,6 +49,7 @@ public class Mario extends MovingObject{
                 marioAction(lista_acciones.siguienteAction());
             }
         }
+        //TODO Comprobamos colisiones
     }
 
     private void marioAction(Action a) {
@@ -60,17 +69,13 @@ public class Mario extends MovingObject{
     private void moverMario(Action a){
         if(!isObstaculizedMario(a)) {
             move(a);
-            //Cambiamos la direccion en la que mira
-            if (a == Action.LEFT || a == Action.RIGHT || a == Action.STOP) {
-                cambiarDir(a);
-            }
+            cambiarDir(a);
             if(fueraDelTablero()) this.dead();
-        } else{
-            cambiarDir(a.invertirDireccion());
-        }
+        } else cambiarDir(a.invertirDireccion());
     }
 
     //He cambiado el interact a usar GameObject
+    //TODO: posiblemente, con el nuevo isInPosition de mario no haga falta tanto check
     public boolean interactWith(GameObject other) {
         boolean interact = compartePosition(other);
         if(isMarioBig() && !interact) {
@@ -84,8 +89,8 @@ public class Mario extends MovingObject{
         else this.dead();
     }
 
-    //Obstaculizado especial para mario, si es big
-    //también comprueba la posicion superior
+    //Obstaculizado especial para mario
+    // si es big también comprueba la posicion superior
     private boolean isObstaculizedMario(Action a){
         boolean obstaculizado = isObstaculized(posSiguente(a));
         if(isMarioBig() && !obstaculizado) {
@@ -98,12 +103,12 @@ public class Mario extends MovingObject{
         this.lista_acciones.add(a);
     }
 
-
     @Override
     public String toString() {
+
         return "Mario{" +
                 "big=" + big +
-                ", lista_acciones=" + lista_acciones +
+                ", lista_acciones=" + lista_acciones + ", " +
                 super.toString() + "}";
     }
 }

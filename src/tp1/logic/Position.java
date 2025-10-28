@@ -43,4 +43,11 @@ public class Position {
 		return (this.col < 0 || this.col > DIM_X);
 	}
 
+    @Override
+    public String toString() {
+        return "Position{" +
+                "col=" + col +
+                ", row=" + row +
+                '}';
+    }
 }

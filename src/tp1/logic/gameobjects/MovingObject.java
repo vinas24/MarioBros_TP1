@@ -40,12 +40,12 @@ public abstract class MovingObject extends GameObject {
     //cuando implementemos la lista de GameObject usaremos isSolid
     protected boolean isGrounded() {
         Position inferior = this.posSiguente(Action.DOWN);
-        return game.landInPos(inferior);
+        return game.isSolid(inferior);
     }
 
     //cuando implementemos la lista de GameObject usaremos isSolid
     protected boolean isObstaculized(Position pos) {
-        return game.landInPos(pos) || pos.enBorde();
+        return game.isSolid(pos) || pos.enBorde();
     }
 
     protected boolean isFalling() {
@@ -67,13 +67,14 @@ public abstract class MovingObject extends GameObject {
     }
 
     protected void cambiarDir(Action a) {
-        this.dir = a;
+        if (a == Action.LEFT || a == Action.RIGHT || a == Action.STOP)
+            this.dir = a;
     }
 
     @Override
     public String toString() {
         return  "dir=" + dir +
-                ", isFalling=" + isFalling +
+                ", isFalling=" + isFalling + ", " +
                 super.toString();
     }
 }

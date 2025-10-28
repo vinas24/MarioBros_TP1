@@ -7,5 +7,4 @@ public interface GameWorld {
     public void marioExited();
     public void doInteractionsFrom(Mario mario);
     public boolean isSolid(Position pos);
-    public boolean landInPos(Position pos);
 }

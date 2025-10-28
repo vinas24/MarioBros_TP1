@@ -150,6 +150,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
     //
     //Métodos de GameWorld
     //
+
     public void addAction(Action a){
         mario.addAction(a);
     }
@@ -176,10 +177,6 @@ public class Game implements GameModel, GameStatus, GameWorld {
 
     public void addPoints(int n) {
         this.points += n;
-    }
-
-    public boolean landInPos(Position pos) {
-        return container.landInPosition(pos);
     }
 
 }

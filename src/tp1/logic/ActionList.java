@@ -44,4 +44,11 @@ public class ActionList {
         lista_acciones.removeFirst();
         return a;
     }
+
+    @Override
+    public String toString() {
+        return "ActionList{" +
+                "lista_acciones=" + Arrays.toString(lista_acciones.toArray()) +
+                '}';
+    }
 }
