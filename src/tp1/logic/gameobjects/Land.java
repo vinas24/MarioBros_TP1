@@ -19,4 +19,9 @@ public class Land extends GameObject{
     public String getIcon() {
         return Messages.LAND;
     }
+
+    @Override
+    public boolean isSolid() {
+        return true;
+    }
 }

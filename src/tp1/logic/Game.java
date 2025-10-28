@@ -14,12 +14,10 @@ public class Game implements GameModel, GameStatus, GameWorld {
     private int points;
     private int lives;
     private Mario mario;
-    private final ActionList lista_acciones;
     private boolean esVictoria;
     private boolean exited;
 
     public Game(int nLevel) {
-        lista_acciones = new ActionList();
         points = 0;
         lives = 3;
         esVictoria = false;
@@ -153,7 +151,7 @@ public class Game implements GameModel, GameStatus, GameWorld {
     //Métodos de GameWorld
     //
     public void addAction(Action a){
-        lista_acciones.add(a);
+        mario.addAction(a);
     }
 
     public void marioExited() {
@@ -182,18 +180,6 @@ public class Game implements GameModel, GameStatus, GameWorld {
 
     public boolean landInPos(Position pos) {
         return container.landInPosition(pos);
-    }
-
-    public void limpiarAcciones() {
-        this.lista_acciones.limpiarActions();
-    }
-
-    public boolean accionesIsVacio() {
-        return this.lista_acciones.isVacio();
-    }
-
-    public Action siguenteAction() {
-        return this.lista_acciones.siguienteAction();
     }
 
 }

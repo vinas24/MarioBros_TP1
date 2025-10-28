@@ -97,6 +97,7 @@ public class GameObjectContainer {
         return S;
     }
 
+    //TODO: cambiarlo para que no tome GAME
     public void update(GameWorld game) {
         //Primero update de mario para que tenga prioridad en las colisiones
         this.mario.update();

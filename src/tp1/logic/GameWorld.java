@@ -8,7 +8,4 @@ public interface GameWorld {
     public void doInteractionsFrom(Mario mario);
     public boolean isSolid(Position pos);
     public boolean landInPos(Position pos);
-    public void limpiarAcciones();
-    public boolean accionesIsVacio();
-    public Action siguenteAction();
 }

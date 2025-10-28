@@ -31,7 +31,7 @@ public abstract class GameObject {
 	}
 
     public boolean isSolid() {
-        return this.getClass() == Land.class;
+        return false;
     }
 
     public abstract void update();

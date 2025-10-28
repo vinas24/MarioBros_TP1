@@ -2,17 +2,21 @@
 
 package tp1.logic.gameobjects;
 import tp1.logic.Action;
+import tp1.logic.ActionList;
 import tp1.logic.GameWorld;
 import tp1.logic.Position;
 import tp1.view.Messages;
 
 public class Mario extends MovingObject{
     private boolean big;
+    private final ActionList lista_acciones;
+
 
     public Mario(Position pos, GameWorld game) {
         super(game, pos, Action.RIGHT);
         this.big = true;
         this.dir = Action.RIGHT;
+        this.lista_acciones = new ActionList();
     }
 
     public String getIcon() {
@@ -33,13 +37,12 @@ public class Mario extends MovingObject{
 
     @Override
     public void update() {
-        if(game.accionesIsVacio()) {
+        if(lista_acciones.isVacio()) {
             //Mov automático
             movAutomatico();
         } else {
-            game.limpiarAcciones(); //eliminamos acciones incoherentes
-            while(!game.accionesIsVacio()) {
-                marioAction(game.siguenteAction());
+            while(!lista_acciones.isVacio()) {
+                marioAction(lista_acciones.siguienteAction());
             }
         }
     }
@@ -94,4 +97,9 @@ public class Mario extends MovingObject{
         }
         return obstaculizado;
     }
+
+    public void addAction(Action a){
+        this.lista_acciones.add(a);
+    }
+
 }
