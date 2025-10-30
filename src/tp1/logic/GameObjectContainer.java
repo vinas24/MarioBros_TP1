@@ -7,10 +7,9 @@ import java.util.List;
 import tp1.logic.gameobjects.*;
 import tp1.view.Messages;
 
-//TODO cambiar para que solo sea con gameObjects
 public class GameObjectContainer {
-    //NUEVO
     private final List<GameObject> gameObjects;
+    //TODO tendremos que desahecernos de mario y generalizar en algun momento
     private Mario mario;
 
 
