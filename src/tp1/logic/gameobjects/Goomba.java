@@ -2,6 +2,7 @@
 
 package tp1.logic.gameobjects;
 import tp1.logic.Action;
+import tp1.logic.GameItem;
 import tp1.logic.Position;
 import tp1.view.Messages;
 import tp1.logic.GameWorld;
@@ -16,7 +17,7 @@ public class Goomba extends MovingObject{
         return Messages.GOOMBA;
     }
 
-    //Se cambiará con el double-dispatch
+    //TODO Se cambiará con el double-dispatch
     public boolean receiveInteraction(Mario other) {
         if (other.isFalling()) {
             this.dead();
@@ -31,4 +32,14 @@ public class Goomba extends MovingObject{
     public String toString() {
         return "Goomba{ " + super.toString() + "}";
     }
+
+	//TODO nuevo interactWith
+	public boolean interactWith(GameItem other) {
+		boolean canInteract = other.compartePosition(this);
+		if (canInteract) {
+			canInteract = other.receiveInteraction(this);
+		}
+		return canInteract;
+	}
+	
 }

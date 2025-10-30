@@ -3,6 +3,7 @@
 package tp1.logic.gameobjects;
 import tp1.logic.Action;
 import tp1.logic.ActionList;
+import tp1.logic.GameItem;
 import tp1.logic.GameWorld;
 import tp1.logic.Position;
 import tp1.view.Messages;
@@ -11,13 +12,13 @@ public class Mario extends MovingObject{
     private boolean big;
     private final ActionList lista_acciones;
 
-
     public Mario(Position pos, GameWorld game) {
         super(game, pos, Action.RIGHT);
         this.big = true;
         this.lista_acciones = new ActionList();
     }
-    //IDK
+
+  //IDK
     @Override
     public boolean isInPosition(Position p) {
         boolean inPos = super.isInPosition(p);
@@ -25,7 +26,7 @@ public class Mario extends MovingObject{
         return inPos;
     }
 
-
+    
     public String getIcon() {
         return switch (dirActual())
         {
@@ -55,7 +56,7 @@ public class Mario extends MovingObject{
     private void marioAction(Action a) {
         if (a == Action.DOWN) {
             if(isGrounded())  {
-                cambiarDir(Action.STOP);
+                this.cambiarDir(Action.STOP);
             }
             else {
                 fall(); //mario cae
@@ -69,28 +70,33 @@ public class Mario extends MovingObject{
     private void moverMario(Action a){
         if(!isObstaculizedMario(a)) {
             move(a);
+            //Cambiamos la direccion en la que mira
             cambiarDir(a);
             if(fueraDelTablero()) this.dead();
-        } else cambiarDir(a.invertirDireccion());
+        } else this.cambiarDir(a.invertirDireccion());
     }
 
-    //He cambiado el interact a usar GameObject
+//    //He cambiado el interact a usar GameObject    
+    //TODO nuevo interactWith
     //TODO: posiblemente, con el nuevo isInPosition de mario no haga falta tanto check
-    public boolean interactWith(GameObject other) {
-        boolean interact = compartePosition(other);
-        if(isMarioBig() && !interact) {
-            interact = other.isInPosition(posSiguente(Action.UP));
-        }
-        return interact;
-    }
-
+    public boolean interactWith(GameItem other) {
+	     boolean canInteract = other.compartePosition(this); //llama al override de isInPosition?
+//	     if(isMarioBig() && !canInteract) {
+//	            canInteract = other.isInPosition(posSiguente(Action.UP));
+//	        }
+	     if (canInteract) {
+	          canInteract = other.receiveInteraction(this);
+	     }
+	     return canInteract;
+	}
+    
     public void atacadoPorGoomba() {
         if(big) big = false;
         else this.dead();
     }
 
-    //Obstaculizado especial para mario
-    // si es big también comprueba la posicion superior
+    //Obstaculizado especial para mario, si es big
+    //también comprueba la posicion superior
     private boolean isObstaculizedMario(Action a){
         boolean obstaculizado = isObstaculized(posSiguente(a));
         if(isMarioBig() && !obstaculizado) {
@@ -98,7 +104,7 @@ public class Mario extends MovingObject{
         }
         return obstaculizado;
     }
-
+    
     public void addAction(Action a){
         this.lista_acciones.add(a);
     }
@@ -110,5 +116,15 @@ public class Mario extends MovingObject{
                 "big=" + big +
                 ", lista_acciones=" + lista_acciones + ", " +
                 super.toString() + "}";
+    }
+	
+	//TODO interacciones con ExitDoor
+    public boolean receiveInteraction(ExitDoor obj) {
+    	return true;
+    }
+	
+  //TODO interacciones con Goomba
+    public boolean receiveInteraction(Goomba obj) {
+    	return true;
     }
 }

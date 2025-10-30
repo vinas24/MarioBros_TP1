@@ -7,9 +7,10 @@ import java.util.List;
 import tp1.logic.gameobjects.*;
 import tp1.view.Messages;
 
+//TODO cambiar para que solo sea con gameObjects
 public class GameObjectContainer {
+    //NUEVO
     private final List<GameObject> gameObjects;
-    //TODO tendremos que desahecernos de mario y generalizar en algun momento
     private Mario mario;
 
 
@@ -73,6 +74,20 @@ public class GameObjectContainer {
             }
         }
     }
+    //TODO no se que hay que hacer
+//    public void doInteraction(GameItem other) {
+//        for(GameObject o: gameObjects) {
+//            if(other.interactWith(o) && o.interactWith(other)) {
+//                if(o instanceof ExitDoor) game.marioExited();
+//                else if(o instanceof Goomba) {
+//                    if(o.isAlive()) {
+//                       ((Goomba) o).receiveInteraction(mario);
+//                        game.addPoints(100); //por cada goomba con que interactue +100p
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     //Busca la si hay un obj solido en la posicion dada
     protected boolean isSolid(Position pos) {

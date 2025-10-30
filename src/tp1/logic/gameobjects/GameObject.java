@@ -2,10 +2,11 @@
 package tp1.logic.gameobjects;
 
 import tp1.logic.Action;
+import tp1.logic.GameItem;
 import tp1.logic.GameWorld;
 import tp1.logic.Position;
 
-public abstract class GameObject {
+public abstract class GameObject implements GameItem{
 
 	private Position pos;
 	private boolean isAlive;
@@ -20,7 +21,7 @@ public abstract class GameObject {
 	public boolean isInPosition(Position p) {
 		return this.pos.equals(p);
 	}
-
+ 	
 	public boolean isAlive() {
 		return isAlive;
 	}
@@ -48,12 +49,26 @@ public abstract class GameObject {
     protected boolean fueraDelTablero() {
         return this.pos.fueraTablero();
     }
-
-    protected boolean compartePosition(GameObject other) {
+    //TODO public por estar en GameItem
+    public boolean compartePosition(GameObject other) {
         return other.isInPosition(this.pos);
     }
-
-    @Override
+    
+    //TODO hacer metodos receiveIteraction por defecto aqui, e implementar los necesarios en cada clase
+    public boolean receiveInteraction(Land obj) {
+    	return false;
+    }
+	public boolean receiveInteraction(ExitDoor obj) {
+    	return false;
+    }
+	public boolean receiveInteraction(Mario obj) {
+    	return false;
+    }
+	public boolean receiveInteraction(Goomba obj) {
+    	return false;
+    }
+	
+	@Override
     public String toString() {
         return  "pos=" + pos +
                 ", isAlive=" + isAlive +
