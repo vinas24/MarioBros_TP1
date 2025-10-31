@@ -74,7 +74,7 @@ public class GameObjectContainer {
             }
         }
     }
-    //TODO no se que hay que hacer
+    //TODO no se que hay que hacer, quitar los instanceof
 //    public void doInteraction(GameItem other) {
 //        for(GameObject o: gameObjects) {
 //            if(other.interactWith(o) && o.interactWith(other)) {
